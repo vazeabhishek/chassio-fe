@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { API_ENDPOINTS } from "../config/apiConfig";
 
-const Filter = ({ setSelectedCity }) => {
+const Filter = ({ setSelectedCity, selectedCity }) => {
   const [cities, setCityList] = useState([]);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const Filter = ({ setSelectedCity }) => {
   }, []);
 
   const handleCityClick = (city) => {
-    setSelectedCity(city); // Update the selected city in App.js
+    setSelectedCity(city); // Update the selected city
     console.log(`City selected: ${city}`);
   };
 
@@ -33,8 +33,19 @@ const Filter = ({ setSelectedCity }) => {
             <a
               key={index}
               className="nav-link"
-              href="#"
               onClick={() => handleCityClick(city)}
+              style={{
+                color: selectedCity === city ? "white" : "#FF6600", // White text for selected city
+                fontSize: "1rem",
+                fontFamily: "'Courier New', Courier, monospace",
+                fontWeight: "600",
+                transition: "all 0.3s ease",
+                border: selectedCity === city ? "2px solid #FF6600" : "none", // Border for selected city
+                borderRadius: "12px", // Rounded corners
+                padding: "5px 15px", // Padding inside the rectangle
+                backgroundColor: selectedCity === city ? "#FF6600" : "transparent", // Background color for selected city
+                cursor: "pointer", // Change cursor to indicate it's clickable
+              }}
             >
               {city}
             </a>

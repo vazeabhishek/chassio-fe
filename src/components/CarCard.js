@@ -20,7 +20,7 @@ const CarCard = ({ car, onLike, onDislike }) => {
             <img src={car.imageLinks[0]} className="card-img-top" alt={car.make} />
             <div className="card-body">
                 <div className="d-flex justify-content-between align-items-center">
-                    <h5 className="card-title">{car.make} {car.model}</h5>
+                    <h6 className="card-title fw-monospace">{car.make} {car.model}</h6>
                     <div>
                         <i
                             className="fas fa-solid fa-eye text-primary me-2"
@@ -36,7 +36,7 @@ const CarCard = ({ car, onLike, onDislike }) => {
                             {car.likeCount}
                         </i>
                         <i
-                            className="fas fa-thumbs-down text-danger"
+                            className="fas fa-thumbs-down text-danger me-2"
                             style={{ cursor: "pointer" }}
                             onClick={() => onDislike(car.carId)}
                         >
@@ -45,11 +45,11 @@ const CarCard = ({ car, onLike, onDislike }) => {
                     </div>
                 </div>
                 <div className="d-flex justify-content-between align-items-center mt-2">
-                    <p className="card-text mb-0">
+                    <p className="card-text fw-monospace mb-2 fs-6" style={{ color: "#003366" }}>
                         {car.city} | {car.year} | {car.fuelType} | {car.kmsDriven} | INR {car.askPrice}
                     </p>
                     {/* Fix: Pass a function reference, not invoke it immediately */}
-                    <button className="btn btn-success ms-3" onClick={() => handleDealClick(car.carId)}>
+                    <button className="btn btn-success ms-2" onClick={() => handleDealClick(car.carId)}>
                         Deal
                     </button>
                 </div>

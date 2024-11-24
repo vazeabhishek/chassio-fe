@@ -84,7 +84,7 @@ const CarList = ({selectedCity}) => {
                             : true
                     )
                     .map((car) => (
-                        <div className="col-md-4" key={car.carId}>
+                        <div className="col-md-3" key={car.carId}>
                             <CarCard
                                 car={car}
                                 onLike={handleLike}
