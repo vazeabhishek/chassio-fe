@@ -1,30 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { API_ENDPOINTS } from "../config/apiConfig";
 
-const EnquiryForm = () => {
+const EnquiryForm = ({ carId, onClose }) => {
     // State for form fields
     const [formData, setFormData] = useState({
         name: '',
-        city: '',
-        phone: ''
+        email: '',
+        phone: '',
+        bidPrice: ''
     });
-
-    const [cities, setCities] = useState([]); // State to store the list of cities
-
-    // Fetch cities data from API
-    useEffect(() => {
-        const fetchCities = async () => {
-            try {
-                const response = await fetch('http://localhost:8080/data/cities'); // Replace with actual API URL
-                const data = await response.json();
-                setCities(data.data); // Assume the response returns an array of cities
-            } catch (error) {
-                console.error('Error fetching cities:', error);
-            }
-        };
-
-        fetchCities();
-    }, []);
-
     // Handle input change
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -37,8 +21,33 @@ const EnquiryForm = () => {
     // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Process the form data (e.g., send it to an API)
-        console.log('Form Submitted:', formData);
+
+        // Ensure carId is present
+        if (!carId) {
+            console.error("Car ID is missing");
+            return;
+        }
+
+        fetch(`${API_ENDPOINTS.cars}/${carId}/interest`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData), // Send the form data
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Failed to submit interest');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                console.log('Interest submitted successfully:', data);
+                if (onClose) onClose(); // Close the modal after successful submission
+            })
+            .catch((error) => {
+                console.error('Error submitting interest:', error);
+            });
     };
 
     return (
@@ -59,23 +68,18 @@ const EnquiryForm = () => {
                 </div>
 
                 <div className="mb-3">
-                    <label htmlFor="city" className="form-label">City</label>
-                    <select
+                    <label htmlFor="email" className="form-label">Email</label>
+                    <input
+                        type="email"
                         className="form-control"
-                        id="city"
-                        name="city"
-                        value={formData.city}
+                        id="email"
+                        name="email"
+                        value={formData.email}
                         onChange={handleInputChange}
+                        placeholder="Enter your email"
                         required
-                    >
-                        <option value="">Select your city</option>
-                        {cities.map((city, index) => (
-                            <option key={index} value={city}>
-                                {city}
-                            </option>
-                        ))}
-                    </select>
-
+                        pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+                    />
                 </div>
 
                 <div className="mb-3">
@@ -89,7 +93,20 @@ const EnquiryForm = () => {
                         onChange={handleInputChange}
                         placeholder="Enter your phone number"
                         required
-                        pattern="[0-9]{10}"
+                    />
+                </div>
+
+                <div className="mb-3">
+                    <label htmlFor="bidPrice" className="form-label">Bid Price</label>
+                    <input
+                        type="number"
+                        className="form-control"
+                        id="bidPrice"
+                        name="bidPrice"
+                        value={formData.bidPrice}
+                        onChange={handleInputChange}
+                        placeholder="Enter your bid"
+                        required
                     />
                 </div>
 

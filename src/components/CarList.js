@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import CarCard from "./CarCard";
+import { API_ENDPOINTS } from "../config/apiConfig";
 
 const CarList = () => {
     const [cars, setCars] = useState([]);
@@ -8,7 +9,7 @@ const CarList = () => {
 
     useEffect(() => {
         // Replace the URL with your API endpoint
-        fetch("http://localhost:8080/cars?carStatusType=NEW")
+        fetch(`${API_ENDPOINTS.cars}?carStatusType=NEW`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Failed to fetch car data");
@@ -26,7 +27,7 @@ const CarList = () => {
     }, []);
 
     const handleLike = (carId) => {
-        fetch(`http://localhost:8080/cars/${carId}/react?actionType=LIKE`, {
+        fetch(`${API_ENDPOINTS.cars}/${carId}/react?actionType=LIKE`, {
             method: "PUT",
         })
             .then((response) => {
@@ -47,7 +48,7 @@ const CarList = () => {
     };
     
     const handleDislike = (carId) => {
-        fetch(`http://localhost:8080/cars/${carId}/react?actionType=DISLIKE`, {
+        fetch(`${API_ENDPOINTS.cars}/${carId}/react?actionType=DISLIKE`, {
             method: "PUT",
         })
             .then((response) => {

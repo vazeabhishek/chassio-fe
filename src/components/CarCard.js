@@ -1,16 +1,18 @@
 import React, { useState } from "react";
-import EnquiryForm from "./EnquiryForm";  // Import the EnquiryForm component
+import EnquiryForm from "./EnquiryForm"; // Import the EnquiryForm component
 
 const CarCard = ({ car, onLike, onDislike }) => {
-    // State to control visibility of the modal
     const [showModal, setShowModal] = useState(false);
+    const [currentCarId, setCurrentCarId] = useState(null); // Initialize with null
 
-    const handleDealClick = () => {
-        setShowModal(true); // Show the modal when Deal button is clicked
+    const handleDealClick = (carId) => {
+        setCurrentCarId(carId); // Set the current carId when Deal button is clicked
+        setShowModal(true); // Show modal
     };
 
     const handleCloseModal = () => {
         setShowModal(false); // Close the modal
+        setCurrentCarId(null); // Reset carId
     };
 
     return (
@@ -20,38 +22,60 @@ const CarCard = ({ car, onLike, onDislike }) => {
                 <div className="d-flex justify-content-between align-items-center">
                     <h5 className="card-title">{car.make} {car.model}</h5>
                     <div>
-                        <i 
-                            className="fas fa-thumbs-up text-primary me-2" 
-                            style={{ cursor: 'pointer' }} 
-                            onClick={() => onLike(car.carId)} 
-                        >{car.likeCount}</i>
-                        <i 
-                            className="fas fa-thumbs-down text-danger" 
-                            style={{ cursor: 'pointer' }} 
-                            onClick={() => onDislike(car.carId)} 
-                        >{car.dislikeCount}</i>
+                        <i
+                            className="fas fa-solid fa-eye text-primary me-2"
+                            style={{ cursor: "pointer" }}
+                        >
+                            {car.viewCount}
+                        </i>
+                        <i
+                            className="fas fa-thumbs-up text-primary me-2"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => onLike(car.carId)}
+                        >
+                            {car.likeCount}
+                        </i>
+                        <i
+                            className="fas fa-thumbs-down text-danger"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => onDislike(car.carId)}
+                        >
+                            {car.dislikeCount}
+                        </i>
                     </div>
                 </div>
-                <p className="card-text">
-                    {car.city} | {car.year} | {car.fuelType} | {car.kmsDriven}
-                </p>
-                <div className="d-flex justify-content-between mt-3">
-                    <button className="btn btn-success" onClick={handleDealClick}>
+                <div className="d-flex justify-content-between align-items-center mt-2">
+                    <p className="card-text mb-0">
+                        {car.city} | {car.year} | {car.fuelType} | {car.kmsDriven} | INR {car.askPrice}
+                    </p>
+                    {/* Fix: Pass a function reference, not invoke it immediately */}
+                    <button className="btn btn-success ms-3" onClick={() => handleDealClick(car.carId)}>
                         Deal
                     </button>
                 </div>
             </div>
 
             {/* Bootstrap Modal */}
-            <div className={`modal fade ${showModal ? 'show' : ''}`} style={{ display: showModal ? 'block' : 'none' }} tabIndex="-1" aria-hidden={!showModal}>
+            <div
+                className={`modal fade ${showModal ? "show" : ""}`}
+                style={{ display: showModal ? "block" : "none" }}
+                tabIndex="-1"
+                aria-hidden={!showModal}
+            >
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title">Enquiry Form</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={handleCloseModal}></button>
+                            <button
+                                type="button"
+                                className="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                                onClick={handleCloseModal}
+                            ></button>
                         </div>
                         <div className="modal-body">
-                            <EnquiryForm />
+                            <EnquiryForm carId={currentCarId} onClose={handleCloseModal} />
                         </div>
                     </div>
                 </div>
