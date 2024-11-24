@@ -25,25 +25,54 @@ const CarList = () => {
             });
     }, []);
 
+    // Handle Like action
+    const handleLike = (carId) => {
+        fetch(`http://localhost:8080/cars/${carId}/like`, {
+            method: "POST",
+        })
+            .then((response) => {
+                if (response.ok) {
+                    console.log("Car liked successfully");
+                } else {
+                    throw new Error("Failed to like car");
+                }
+            })
+            .catch((err) => console.error(err));
+    };
+
+    // Handle Dislike action
+    const handleDislike = (carId) => {
+        fetch(`http://localhost:8080/cars/${carId}/dislike`, {
+            method: "POST",
+        })
+            .then((response) => {
+                if (response.ok) {
+                    console.log("Car disliked successfully");
+                } else {
+                    throw new Error("Failed to dislike car");
+                }
+            })
+            .catch((err) => console.error(err));
+    };
+
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
 
     return (
-        <div style={styles.list}>
-            {cars.map((car) => (
-                <CarCard key={car.carId} car={car} />
-            ))}
+        <div className="container my-4">
+            <div className="row g-4">
+                {cars.map((car) => (
+                    <div className="col-md-4" key={car.carId}>
+                        <CarCard
+                            car={car}
+                            onLike={handleLike}
+                            onDislike={handleDislike}
+                        />
+                    </div>
+                ))}
+            </div>
         </div>
     );
-};
-
-const styles = {
-    list: {
-        display: "flex",
-        justifyContent: "space-around",
-        flexWrap: "wrap",
-        margin: "20px",
-    },
 };
 
 export default CarList;

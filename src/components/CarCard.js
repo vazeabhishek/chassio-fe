@@ -1,41 +1,34 @@
 import React from "react";
 
-const CarCard = ({ car }) => {
+const CarCard = ({ car, onLike, onDislike }) => {
     return (
-        <div style={styles.card}>
-            <img src={car.imageLinks[0]} alt={car.name} style={styles.img} />
-            <h3>{car.id}</h3>
-            <p>{car.make}</p>
-            <p>{car.model}</p>
-            <p>{car.askPrice}</p>
-            <button style={styles.button}>Send Interest</button>
+        <div className="card h-100">
+            <img src={car.imageLinks[0]} className="card-img-top" alt={car.make} />
+            <div className="card-body">
+                <div className="d-flex justify-content-between align-items-center">
+                    <h5 className="card-title">{car.make} {car.model}</h5>
+                    <div>
+                        <i 
+                            className="fas fa-thumbs-up text-primary me-2" 
+                            style={{ cursor: 'pointer' }} 
+                            onClick={() => onLike(car.carId)} 
+                        />
+                        <i 
+                            className="fas fa-thumbs-down text-danger" 
+                            style={{ cursor: 'pointer' }} 
+                            onClick={() => onDislike(car.carId)} 
+                        />
+                    </div>
+                </div>
+                <p className="card-text">
+                {car.city} | {car.year} | {car.fuelType} | {car.kmsDriven}
+                </p>
+                <div className="d-flex justify-content-between mt-3">
+                    <button className="btn btn-success">Deal</button>
+                </div>
+            </div>
         </div>
     );
-};
-
-const styles = {
-    card: {
-        width: "250px",
-        border: "1px solid #ddd",
-        borderRadius: "10px",
-        padding: "15px",
-        margin: "10px",
-        textAlign: "center",
-        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-    },
-    img: {
-        width: "100%",
-        borderRadius: "5px",
-        marginBottom: "10px",
-    },
-    button: {
-        padding: "10px 20px",
-        backgroundColor: "#007bff",
-        color: "#fff",
-        border: "none",
-        borderRadius: "5px",
-        cursor: "pointer",
-    },
 };
 
 export default CarCard;
