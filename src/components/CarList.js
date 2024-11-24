@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import CarCard from "./CarCard";
 import { API_ENDPOINTS } from "../config/apiConfig";
 
-const CarList = () => {
+const CarList = ({selectedCity}) => {
     const [cars, setCars] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    
+
 
     useEffect(() => {
         // Replace the URL with your API endpoint
@@ -75,15 +77,21 @@ const CarList = () => {
     return (
         <div className="container my-4">
             <div className="row g-4">
-                {cars.map((car) => (
-                    <div className="col-md-4" key={car.carId}>
-                        <CarCard
-                            car={car}
-                            onLike={handleLike}
-                            onDislike={handleDislike}
-                        />
-                    </div>
-                ))}
+                {cars
+                    .filter((car) =>
+                        selectedCity
+                            ? car.city.toLowerCase() === selectedCity.toLowerCase()
+                            : true
+                    )
+                    .map((car) => (
+                        <div className="col-md-4" key={car.carId}>
+                            <CarCard
+                                car={car}
+                                onLike={handleLike}
+                                onDislike={handleDislike}
+                            />
+                        </div>
+                    ))}
             </div>
         </div>
     );

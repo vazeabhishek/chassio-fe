@@ -1,5 +1,4 @@
-// App.js
-import React from "react";
+import React, { useState } from "react";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from "./components/Header";
@@ -8,12 +7,14 @@ import Footer from "./components/Footer";
 import Filter from "./components/Filter";
 
 function App() {
+  const [selectedCity, setSelectedCity] = useState(null);
+
   return (
     <div>
       <Header />
-      <Filter />
+      <Filter setSelectedCity={setSelectedCity} />
       <main>
-        <CarList />
+        <CarList selectedCity={selectedCity} />
       </main>
       <Footer />
     </div>
