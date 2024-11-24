@@ -25,35 +25,48 @@ const CarList = () => {
             });
     }, []);
 
-    // Handle Like action
     const handleLike = (carId) => {
-        fetch(`http://localhost:8080/cars/${carId}/like`, {
-            method: "POST",
+        fetch(`http://localhost:8080/cars/${carId}/react?actionType=LIKE`, {
+            method: "PUT",
         })
             .then((response) => {
-                if (response.ok) {
-                    console.log("Car liked successfully");
-                } else {
+                if (!response.ok) {
                     throw new Error("Failed to like car");
                 }
+                return response.json(); // Parse the updated car object
+            })
+            .then((updatedCar) => {
+                setCars((prevCars) =>
+                    prevCars.map((car) =>
+                        car.carId === updatedCar.carId ? updatedCar : car
+                    )
+                );
+                console.log("Car liked successfully");
             })
             .catch((err) => console.error(err));
     };
-
-    // Handle Dislike action
+    
     const handleDislike = (carId) => {
-        fetch(`http://localhost:8080/cars/${carId}/dislike`, {
-            method: "POST",
+        fetch(`http://localhost:8080/cars/${carId}/react?actionType=DISLIKE`, {
+            method: "PUT",
         })
             .then((response) => {
-                if (response.ok) {
-                    console.log("Car disliked successfully");
-                } else {
+                if (!response.ok) {
                     throw new Error("Failed to dislike car");
                 }
+                return response.json(); // Parse the updated car object
+            })
+            .then((updatedCar) => {
+                setCars((prevCars) =>
+                    prevCars.map((car) =>
+                        car.carId === updatedCar.carId ? updatedCar : car
+                    )
+                );
+                console.log("Car disliked successfully");
             })
             .catch((err) => console.error(err));
     };
+    
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;

@@ -24,12 +24,12 @@ const CarCard = ({ car, onLike, onDislike }) => {
                             className="fas fa-thumbs-up text-primary me-2" 
                             style={{ cursor: 'pointer' }} 
                             onClick={() => onLike(car.carId)} 
-                        />
+                        >{car.likeCount}</i>
                         <i 
                             className="fas fa-thumbs-down text-danger" 
                             style={{ cursor: 'pointer' }} 
                             onClick={() => onDislike(car.carId)} 
-                        />
+                        >{car.dislikeCount}</i>
                     </div>
                 </div>
                 <p className="card-text">
