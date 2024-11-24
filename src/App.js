@@ -5,16 +5,18 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from "./components/Header";
 import CarList from "./components/CarList";
 import Footer from "./components/Footer";
+import Filter from "./components/Filter";
 
 function App() {
   return (
-      <div>
-        <Header />
-        <main>
-          <CarList />
-        </main>
-        <Footer />
-      </div>
+    <div>
+      <Header />
+      <Filter />
+      <main>
+        <CarList />
+      </main>
+      <Footer />
+    </div>
   );
 }
 
