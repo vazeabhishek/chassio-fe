@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import CarList from "./components/CarList";
 import Footer from "./components/Footer";
 import Filter from "./components/Filter";
+import Login from "./components/Login"; // Ensure you import the Login component
 
 function App() {
   const [selectedCity, setSelectedCity] = useState(null);
@@ -21,14 +23,26 @@ function App() {
   }, []);
 
   return (
-    <div>
-      <Header />
-      <Filter setSelectedCity={setSelectedCity} selectedCity={selectedCity}/>
-      <main>
-        <CarList selectedCity={selectedCity} />
-      </main>
-      <Footer />
-    </div>
+    <Router>
+      <div>
+        <Header />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <Filter setSelectedCity={setSelectedCity} selectedCity={selectedCity} />
+                <main>
+                  <CarList selectedCity={selectedCity} />
+                </main>
+              </>
+            }
+          />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+        <Footer />
+      </div>
+    </Router>
   );
 }
 
