@@ -6,7 +6,8 @@ import Header from "./components/Header";
 import CarList from "./components/CarList";
 import Footer from "./components/Footer";
 import Filter from "./components/Filter";
-import Login from "./components/Login"; // Ensure you import the Login component
+import Login from "./components/Login";
+import Home from "./components/Home";
 
 function App() {
   const [selectedCity, setSelectedCity] = useState(null);
@@ -39,6 +40,7 @@ function App() {
             }
           />
           <Route path="/login" element={<Login />} />
+          <Route path="/home" element={<Home />} />
         </Routes>
         <Footer />
       </div>

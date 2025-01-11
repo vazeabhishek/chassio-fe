@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,8 +20,10 @@ const Login = () => {
 
     try {
       const response = await axios.post("/users/login", { email, password });
-      console.log("Login successful:", response.data);
-      // Handle successful login (e.g., redirect or update state)
+      const { token, myCarsList } = response.data.data;
+
+      Cookies.set("authToken", token, { expires: 7, path: "/" });
+      navigate("/home", { state: { cars: myCarsList } });
     } catch (err) {
       setError("Login failed: " + (err.response?.data?.message || err.message));
     }
