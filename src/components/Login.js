@@ -1,31 +1,27 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Reset error message
     setError("");
 
-    // Basic validation
-    if (!username || !password) {
-      setError("Username and password are required.");
+    if (!email || !password) {
+      setError("Email and password are required.");
       return;
     }
 
-    // Simulate login logic (e.g., API call)
-    console.log("Logging in with", { username, password });
-
-    // Here you would typically call your authentication service
-    // Example:
-    // authService.login(username, password).then(() => {
-    //   // Handle successful login
-    // }).catch((err) => {
-    //   setError("Login failed: " + err.message);
-    // });
+    try {
+      const response = await axios.post("/users/login", { email, password });
+      console.log("Login successful:", response.data);
+      // Handle successful login (e.g., redirect or update state)
+    } catch (err) {
+      setError("Login failed: " + (err.response?.data?.message || err.message));
+    }
   };
 
   return (
@@ -34,13 +30,13 @@ const Login = () => {
       {error && <div className="alert alert-danger">{error}</div>}
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label htmlFor="username" className="form-label">Username</label>
+          <label htmlFor="email" className="form-label">Email</label>
           <input
-            type="text"
+            type="email"
             className="form-control"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className="mb-3">
