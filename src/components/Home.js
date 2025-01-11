@@ -12,13 +12,22 @@ const Home = () => {
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Model</th>
-                        <th>Year</th>
-                        <th>City</th>
-                        <th>Likes</th>
-                        <th>Dislikes</th>
-                        <th>Deals</th>
-                        <th>Action</th>
+                        <th><i className="fas fa-car text-danger me-2"/></th>
+                        <th><i className="fas fa-clock text-danger me-2"/></th>
+                        <th><i className="fas fa-city text-danger me-2"/></th>
+                        <th>
+                            <i
+                                className="fas fa-thumbs-up text-primary me-2"
+                                style={{ cursor: "pointer" }}
+                            />
+                        </th>
+                        <th>
+                            <i
+                                className="fas fa-thumbs-down text-danger me-2"
+                            />
+                        </th>
+                        <th> <i className="fas fa-handshake text-danger me-2"/></th>
+                        <th><i className="fas fa-action text-danger me-2"/></th>
                     </tr>
                 </thead>
                 <tbody>
