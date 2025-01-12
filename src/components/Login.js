@@ -19,7 +19,7 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post("/users/login", { email, password });
+      const response = await axios.post("/public/users/login", { email, password });
       const { token, myCarsList } = response.data.data;
 
       Cookies.set("authToken", token, { expires: 7, path: "/" });

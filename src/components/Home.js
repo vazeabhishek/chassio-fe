@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { customFetch } from "../utils/api";
 import { useLocation } from "react-router-dom";
 
 const Home = () => {
@@ -14,13 +15,14 @@ const Home = () => {
         }
 
         try {
-            const response = await fetch(`/users/cars/${carId}/leads`);
+            const response = await customFetch(`/private/cars/${carId}/leads`);
             const data = await response.json();
             setLeadsData((prevData) => ({ ...prevData, [carId]: data }));
             setVisibleRows((prev) => ({ ...prev, [carId]: true }));
         } catch (error) {
             console.error("Failed to fetch leads:", error);
         }
+
     };
 
     return (
@@ -30,14 +32,15 @@ const Home = () => {
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Car</th>
-                        <th>Year</th>
-                        <th>City</th>
-                        <th>Likes</th>
-                        <th>Dislikes</th>
-                        <th>Views</th>
-                        <th>Actions</th>
-                        <th>Leads</th>
+                        <th><i className="fas fa-car text-info me-3" /></th>
+                        <th><i className="fas fa-clock text-info me-3" /></th>
+                        <th><i className="fas fa-city text-info me-3" /></th>
+                        <th><i className="fas fa-thumbs-up text-info me-3" /></th>
+                        <th><i className="fas fa-thumbs-down text-info me-3" /></th>
+                        <th><i className="fas fa-eye text-info me-3" /></th>
+                        <th><i className="fas fa-gear text-info me-3" /></th>
+                        <th><i className="fas fa-globe text-info me-3"></i></th>
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -75,9 +78,9 @@ const Home = () => {
                                                     <th>Name</th>
                                                     <th>Email</th>
                                                     <th>Phone</th>
-                                                    <th>Asking Price</th>
+                                                    <th>Ask</th>
                                                     <th>Spam</th>
-                                                    <th>Created On</th>
+                                                    <th>Date</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -87,7 +90,7 @@ const Home = () => {
                                                         <td>{lead.name}</td>
                                                         <td>{lead.email}</td>
                                                         <td>{lead.phone}</td>
-                                                        <td>${lead.askingPrice}</td>
+                                                        <td>{lead.askingPrice}</td>
                                                         <td>{lead.flagSpam ? "Yes" : "No"}</td>
                                                         <td>{new Date(lead.creationDate).toLocaleDateString()}</td>
                                                     </tr>

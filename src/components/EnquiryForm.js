@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { API_ENDPOINTS } from "../config/apiConfig";
+import { customFetch } from "../utils/api";
+import API_BASE_URL from '../config/ApiBaseUrl';
 
 const EnquiryForm = ({ carId, onClose }) => {
     // State for form fields
@@ -28,7 +29,7 @@ const EnquiryForm = ({ carId, onClose }) => {
             return;
         }
 
-        fetch(`${API_ENDPOINTS.cars}/${carId}/interest`, {
+        customFetch(`${API_BASE_URL}/${carId}/interest`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

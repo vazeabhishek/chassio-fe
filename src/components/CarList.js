@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { customFetch } from "../utils/api";
 import CarCard from "./CarCard";
-import { API_ENDPOINTS } from "../config/apiConfig";
+import API_BASE_URL from '../config/ApiBaseUrl';
 
 const CarList = ({selectedCity}) => {
     const [cars, setCars] = useState([]);
@@ -11,7 +12,7 @@ const CarList = ({selectedCity}) => {
 
     useEffect(() => {
         // Replace the URL with your API endpoint
-        fetch(`${API_ENDPOINTS.cars}?carStatusType=NEW`)
+        customFetch(`${API_BASE_URL}/public/cars?carStatusType=NEW`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Failed to fetch car data");
@@ -29,7 +30,7 @@ const CarList = ({selectedCity}) => {
     }, []);
 
     const handleLike = (carId) => {
-        fetch(`${API_ENDPOINTS.cars}/${carId}/react?actionType=LIKE`, {
+        customFetch(`${API_BASE_URL}/private/cars/${carId}/react?actionType=LIKE`, {
             method: "PUT",
         })
             .then((response) => {
@@ -50,7 +51,7 @@ const CarList = ({selectedCity}) => {
     };
     
     const handleDislike = (carId) => {
-        fetch(`${API_ENDPOINTS.cars}/${carId}/react?actionType=DISLIKE`, {
+        customFetch(`${API_BASE_URL}/private/cars/${carId}/reactx§?actionType=DISLIKE`, {
             method: "PUT",
         })
             .then((response) => {

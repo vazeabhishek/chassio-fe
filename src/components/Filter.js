@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { API_ENDPOINTS } from "../config/apiConfig";
+import { customFetch } from "../utils/api";
+import API_BASE_URL from '../config/ApiBaseUrl';
 
 const Filter = ({ setSelectedCity, selectedCity }) => {
   const [cities, setCityList] = useState([]);
 
   useEffect(() => {
-    fetch(`${API_ENDPOINTS.data}/cities`)
+    customFetch(`${API_BASE_URL}/public/data/cities`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch city data");
