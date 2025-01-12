@@ -7,27 +7,27 @@ const Home = () => {
 
     return (
         <div className="container mt-5">
-            <h1>Your Cars</h1>
+            <h1>My Cars</h1>
             <table className="table table-striped">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th><i className="fas fa-car text-danger me-2"/></th>
-                        <th><i className="fas fa-clock text-danger me-2"/></th>
-                        <th><i className="fas fa-city text-danger me-2"/></th>
+                        <th><i className="fas fa-car text-dark me-2" /></th>
+                        <th><i className="fas fa-clock text-dark me-2" /></th>
+                        <th><i className="fas fa-city text-dark me-2" /></th>
                         <th>
                             <i
-                                className="fas fa-thumbs-up text-primary me-2"
+                                className="fas fa-thumbs-up text-dark me-2"
                                 style={{ cursor: "pointer" }}
                             />
                         </th>
                         <th>
                             <i
-                                className="fas fa-thumbs-down text-danger me-2"
+                                className="fas fa-thumbs-down text-dark me-2"
                             />
                         </th>
-                        <th> <i className="fas fa-handshake text-danger me-2"/></th>
-                        <th><i className="fas fa-action text-danger me-2"/></th>
+                        <th> <i className="fas fa-eye text-dark me-2" /></th>
+                        <th><i className="fas fa-gear text-dark me-2" /></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -39,24 +39,19 @@ const Home = () => {
                             <td>{car.city}</td>
                             <td>{car.likeCount}</td>
                             <td>{car.dislikeCount}</td>
-                            <td>{car.dealCount}</td>
+                            <td>{car.viewCount}</td>
                             <td>
-                                <button
-                                    className="btn btn-danger btn-sm me-2"
-                                    onClick={() => window.open(car.imageLinks?.[0] || "https://via.placeholder.com/150", "_blank")}
-                                >Remove
-                                </button>
-                                <button
+                            <i className="fas fa-check text-success me-3" />
+                            <i className="fas fa-remove text-danger me-3" />
+
+                            <i className="fas fa-image text-primary me-2" />
+                            </td>
+                            <td>
+                            <button
                                     className="btn btn-success btn-sm me-2"
                                     onClick={() => window.open(car.imageLinks?.[0] || "https://via.placeholder.com/150", "_blank")}
                                 >
-                                    Deals
-                                </button>
-                                <button
-                                    className="btn btn-primary btn-sm me-2"
-                                    onClick={() => window.open(car.imageLinks?.[0] || "https://via.placeholder.com/150", "_blank")}
-                                >
-                                    Image
+                                    Leads <i className="fas fa-arrow-down text-dark me-2" />
                                 </button>
                             </td>
                         </tr>
