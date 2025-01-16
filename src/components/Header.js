@@ -13,9 +13,11 @@ const Header = () => {
       </button>
       <div className="collapse navbar-collapse" id="navbarNav">
         <ul className="navbar-nav ms-auto"> {/* ms-auto for right-alignment */}
-          <li className="nav-item">
-            {/* Use Link instead of an anchor tag for navigation */}
+          <li className="nav-item me-2">
             <Link className="btn btn-primary" to="/login">Login</Link>
+          </li>
+          <li className="nav-item">
+            <Link className="btn btn-secondary" to="/signup">Signup</Link>
           </li>
         </ul>
       </div>
