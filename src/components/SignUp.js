@@ -35,7 +35,7 @@ const SignUp = () => {
     try {
       const response = await axios.post("/public/users", formData);
       setSuccess("Signup successful! Redirecting to login...");
-      setTimeout(() => navigate("/login"), 2000);
+      setTimeout(() => navigate("/login"), 4000);
     } catch (err) {
       setError("Signup failed: " + (err.response?.data?.message || err.message));
     }

@@ -9,6 +9,7 @@ import Filter from "./components/Filter";
 import Login from "./components/Login";
 import Home from "./components/Home";
 import SignUp from "./components/SignUp";
+import AboutUs from "./components/AboutUs";
 
 function App() {
   const [selectedCity, setSelectedCity] = useState(null);
@@ -43,6 +44,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/home" element={<Home />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/aboutus" element={<AboutUs />} />
         </Routes>
         <Footer />
       </div>
