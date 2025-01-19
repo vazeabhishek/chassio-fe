@@ -4,10 +4,19 @@ const Footer = () => {
     return (
         <footer style={styles.footer}>
             <p>© 2024 CarZone. All Rights Reserved.</p>
-            <Link to="/aboutUs">AboutUs</Link>
+            <div style={{ margin: '0 10px' }}>
+                <Link to="/aboutUs">About Us</Link>
+            </div>
+            <div style={{ margin: '0 10px' }}>
+                <Link to="/datastoragepolicy">Data Policy</Link>
+            </div>
+            <div style={{ margin: '0 10px' }}>
+                <Link to="/termsandconditions">Terms And Conditions</Link>
+            </div>
         </footer>
     );
 };
+
 
 const styles = {
     footer: {

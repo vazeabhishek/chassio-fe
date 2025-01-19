@@ -11,6 +11,7 @@ const SignUp = () => {
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [isChecked, setIsChecked] = useState(false); // State for checkbox
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -21,6 +22,10 @@ const SignUp = () => {
     });
   };
 
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -29,6 +34,10 @@ const SignUp = () => {
     const { email, password, name, phoneNumber } = formData;
     if (!email || !password || !name || !phoneNumber) {
       setError("All fields are required.");
+      return;
+    }
+    if (!isChecked) {
+      setError("You must agree to the terms and conditions.");
       return;
     }
 
@@ -90,6 +99,18 @@ const SignUp = () => {
             value={formData.phoneNumber}
             onChange={handleChange}
           />
+        </div>
+        <div className="mb-3 form-check">
+          <input
+            type="checkbox"
+            className="form-check-input"
+            id="termsCheck"
+            checked={isChecked}
+            onChange={handleCheckboxChange}
+          />
+          <label htmlFor="termsCheck" className="form-check-label">
+            I agree to the terms and conditions
+          </label>
         </div>
         <button type="submit" className="btn btn-primary">Signup</button>
       </form>

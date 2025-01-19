@@ -10,6 +10,8 @@ import Login from "./components/Login";
 import Home from "./components/Home";
 import SignUp from "./components/SignUp";
 import AboutUs from "./components/AboutUs";
+import DataStoragePolicy from "./components/DataStoragePolicy";
+import TermsAndConditions from "./components/TermsAndConditions";
 
 function App() {
   const [selectedCity, setSelectedCity] = useState(null);
@@ -45,6 +47,9 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/aboutus" element={<AboutUs />} />
+          <Route path="/datastoragepolicy" element={<DataStoragePolicy />} />
+          <Route path="/termsandconditions" element={<TermsAndConditions />} />
+
         </Routes>
         <Footer />
       </div>
