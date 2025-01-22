@@ -8,22 +8,18 @@ const SignUp = () => {
     password: "",
     name: "",
     phoneNumber: "",
+    isAgreedToTC: false, // Checkbox state is directly part of formData
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [isChecked, setIsChecked] = useState(false); // State for checkbox
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: value,
+      [name]: type === "checkbox" ? checked : value, // Handle checkboxes
     });
-  };
-
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
   };
 
   const handleSubmit = async (e) => {
@@ -31,12 +27,12 @@ const SignUp = () => {
     setError("");
     setSuccess("");
 
-    const { email, password, name, phoneNumber } = formData;
+    const { email, password, name, phoneNumber, isAgreedToTC } = formData;
     if (!email || !password || !name || !phoneNumber) {
       setError("All fields are required.");
       return;
     }
-    if (!isChecked) {
+    if (!isAgreedToTC) {
       setError("You must agree to the terms and conditions.");
       return;
     }
@@ -105,8 +101,9 @@ const SignUp = () => {
             type="checkbox"
             className="form-check-input"
             id="termsCheck"
-            checked={isChecked}
-            onChange={handleCheckboxChange}
+            name="isAgreedToTC"
+            checked={formData.isAgreedToTC}
+            onChange={handleChange}
           />
           <label htmlFor="termsCheck" className="form-check-label">
             I agree to the terms and conditions
@@ -117,5 +114,6 @@ const SignUp = () => {
     </div>
   );
 };
+
 
 export default SignUp;
