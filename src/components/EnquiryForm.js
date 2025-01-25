@@ -29,7 +29,7 @@ const EnquiryForm = ({ carId, onClose }) => {
             return;
         }
 
-        customFetch(`${API_BASE_URL}/${carId}/interest`, {
+        customFetch(`${API_BASE_URL}/public/cars/${carId}/interest`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
