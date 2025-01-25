@@ -72,8 +72,8 @@ const TermsAndConditions = () => {
       
       <h2>10. Governing Law</h2>
       <p>
-        These Terms and Conditions are governed by the laws of [Your Jurisdiction]. 
-        Any disputes will be resolved in the courts of [Your Jurisdiction].
+        These Terms and Conditions are governed by the laws of Maharashtra, India. 
+        Any disputes will be resolved in the courts of Pune, Maharashtra, India.
       </p>
       
       <h2>11. Contact Information</h2>

@@ -19,6 +19,9 @@ const Header = () => {
           <li className="nav-item">
             <Link className="btn btn-secondary" to="/signup">Signup</Link>
           </li>
+          <li className="nav-item">
+            <Link className="btn btn-secondary" to="/newcar">Post Car for Sale</Link>
+          </li>
         </ul>
       </div>
     </nav>
