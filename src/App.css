@@ -67,3 +67,15 @@
 .back-button:hover {
   background-color: #bbb;
 }
+
+/* In your global CSS file */
+/* Assuming your carousel is within a specific class, e.g., 'car-modal' */
+/* Global CSS to ensure consistent image sizing in carousel */
+.carousel-item img {
+  height: 400px;        /* Set a fixed height */
+  object-fit: cover;    /* Maintain aspect ratio and cover the area */
+  width: 100%;          /* Ensure the image takes full width */
+}
+
+
+
