@@ -48,7 +48,7 @@ const SignUp = () => {
 
   return (
     <div className="container mt-5">
-      <h1>Signup</h1>
+      <h1>Seller Account Registration</h1>
       {error && <div className="alert alert-danger">{error}</div>}
       {success && <div className="alert alert-success">{success}</div>}
       <form onSubmit={handleSubmit}>
@@ -109,7 +109,7 @@ const SignUp = () => {
             I agree to the terms and conditions
           </label>
         </div>
-        <button type="submit" className="btn btn-primary">Signup</button>
+        <button type="submit" className="btn btn-primary">Sign up</button>
       </form>
     </div>
   );

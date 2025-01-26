@@ -20,9 +20,10 @@ const Login = () => {
 
     try {
       const response = await axios.post("/public/users/login", { email, password });
-      const { token, myCarsList } = response.data.data;
-
+      const { token, myCarsList, user } = response.data.data;
       Cookies.set("authToken", token, { expires: 7, path: "/" });
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("username", user.name);
       navigate("/home", { state: { cars: myCarsList } });
     } catch (err) {
       setError("Login failed: " + (err.response?.data?.message || err.message));
