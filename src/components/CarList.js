@@ -30,7 +30,7 @@ const CarList = ({selectedCity}) => {
     }, []);
 
     const handleLike = (carId) => {
-        customFetch(`${API_BASE_URL}/private/cars/${carId}/react?actionType=LIKE`, {
+        customFetch(`${API_BASE_URL}/public/cars/${carId}/react?actionType=LIKE`, {
             method: "PUT",
         })
             .then((response) => {
@@ -51,7 +51,7 @@ const CarList = ({selectedCity}) => {
     };
     
     const handleDislike = (carId) => {
-        customFetch(`${API_BASE_URL}/private/cars/${carId}/reactx§?actionType=DISLIKE`, {
+        customFetch(`${API_BASE_URL}/public/cars/${carId}/react?actionType=DISLIKE`, {
             method: "PUT",
         })
             .then((response) => {
