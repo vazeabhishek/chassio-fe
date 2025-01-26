@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { customFetch } from "../utils/api";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Home = () => {
     const location = useLocation();
@@ -22,12 +22,11 @@ const Home = () => {
         } catch (error) {
             console.error("Failed to fetch leads:", error);
         }
-
     };
 
     return (
         <div className="container mt-5">
-            <h1>My Cars</h1>
+            <h1>My Vehicles Ads</h1>
             <table className="table table-striped">
                 <thead>
                     <tr>
@@ -40,7 +39,6 @@ const Home = () => {
                         <th><i className="fas fa-eye text-info me-3" /></th>
                         <th><i className="fas fa-gear text-info me-3" /></th>
                         <th><i className="fas fa-globe text-info me-3"></i></th>
-                        
                     </tr>
                 </thead>
                 <tbody>
@@ -102,6 +100,14 @@ const Home = () => {
                             )}
                         </React.Fragment>
                     ))}
+                    {/* Add Car Row */}
+                    <tr
+                        className="text-center text-success fw-bold cursor-pointer"
+                    >
+                        <td colSpan="9">
+                            <i className="fas fa-plus me-2" /><Link className="btn btn-success" to="/newcar"> Create Ad</Link>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
