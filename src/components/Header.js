@@ -13,7 +13,6 @@ const Header = () => {
   // Handle sign out
   const handleSignOut = () => {
     Cookies.remove("authToken");
-    Cookies.remove("uiData");
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("username");
     navigate("/login");
