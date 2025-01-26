@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import axios from "axios";
+import Cookies from "js-cookie";
 import Header from "./components/Header";
 import CarList from "./components/CarList";
 import Footer from "./components/Footer";
@@ -17,15 +19,29 @@ import CarForm from "./components/CarForm";
 function App() {
   const [selectedCity, setSelectedCity] = useState(null);
 
+  // Fetch city from query parameter
   useEffect(() => {
-    // Read query parameter from the URL
     const queryParams = new URLSearchParams(window.location.search);
-    const cityFromURL = queryParams.get('city');
-    
-    // If city parameter exists, set it to selectedCity
+    const cityFromURL = queryParams.get("city");
+
     if (cityFromURL) {
       setSelectedCity(cityFromURL);
     }
+  }, []);
+
+  // Fetch API data and save it in a cookie at startup
+  useEffect(() => {
+
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("/public/data/ui");
+        Cookies.set("uiData", JSON.stringify(response.data), { expires: 7 }); // Cookie expires in 7 days
+      } catch (error) {
+        console.error("Error fetching API data:", error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
@@ -51,7 +67,6 @@ function App() {
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/datastoragepolicy" element={<DataStoragePolicy />} />
           <Route path="/termsandconditions" element={<TermsAndConditions />} />
-
         </Routes>
         <Footer />
       </div>
