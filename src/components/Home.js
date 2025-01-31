@@ -1,12 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { customFetch } from "../utils/api";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Home = () => {
+    const navigate = useNavigate();
     const location = useLocation();
     const cars = location.state?.cars || [];
     const [leadsData, setLeadsData] = useState({});
     const [visibleRows, setVisibleRows] = useState({});
+
+    // Check if user is authenticated
+    useEffect(() => {
+        const userToken = document.cookie.split("; ").find(row => row.startsWith("authToken="));
+        if (!userToken) {
+            navigate("/login"); // Redirect if not authenticated
+        }
+    }, [navigate]);
 
     const toggleLeads = async (carId) => {
         if (visibleRows[carId]) {
@@ -101,9 +110,7 @@ const Home = () => {
                         </React.Fragment>
                     ))}
                     {/* Add Car Row */}
-                    <tr
-                        className="text-center text-success fw-bold cursor-pointer"
-                    >
+                    <tr className="text-center text-success fw-bold cursor-pointer">
                         <td colSpan="9">
                             <i className="fas fa-plus me-2" /><Link className="btn btn-success" to="/newcar"> Create Ad</Link>
                         </td>
