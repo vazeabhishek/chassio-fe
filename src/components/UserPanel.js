@@ -9,17 +9,16 @@ const UserPanel = () => {
     const cars = JSON.parse(localStorage.getItem('myCarsList')) || [];
     const [leadsData, setLeadsData] = useState({});
     const [visibleRows, setVisibleRows] = useState({});
-    const { user } = useAuth(); // Get the user from AuthContext
-    const userRole = user?.role; // Get the role from the user object
+    const { user } = useAuth();
+    const userRole = user?.role;
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [getCurrentId, setCurrentId] = useState(true);
 
-    // Check if user has the correct role
     useEffect(() => {
         const redirectPath = userRole === "SIGNED_USER" ? "/userpanel" :
             userRole === "ADMIN" ? "/adminpanel" :
                 "/login";
         navigate(redirectPath);
-
     }, [userRole, navigate]);
 
     const toggleLeads = async (carId) => {
@@ -40,22 +39,21 @@ const UserPanel = () => {
 
     const handleConfirm = (confirmed) => {
         if (confirmed) {
-            console.log('call the api to delete');
+            console.log('call the api to delete' + getCurrentId);
         }
         setIsDialogOpen(false);
     };
-    const openDialog = () => {
+
+    const openDialog = (carId) => {
         setIsDialogOpen(true);
+        setCurrentId(carId);
     };
 
-
-    // Only render if the user is a SIGNED_USER
     if (userRole !== "SIGNED_USER") {
-        return null; // Optionally, you could render a loading state or a message here instead
+        return null;
     }
 
     return (
-
         <div className="container mt-5">
             <ConfirmationDialog
                 isOpen={isDialogOpen}
@@ -92,7 +90,7 @@ const UserPanel = () => {
                                     <td>{car.viewCount}</td>
                                     <td>
                                         <i className="fas fa-check text-success me-3" />
-                                        <i className="fas fa-remove text-danger me-3" onClick={openDialog} />
+                                        <i className="fas fa-remove text-danger me-3" onClick={() => openDialog(car.carId)} />
                                         <i className="fas fa-image text-primary me-2" />
                                     </td>
                                     <td>
@@ -139,7 +137,6 @@ const UserPanel = () => {
                                 )}
                             </React.Fragment>
                         ))}
-                        {/* Add Car Row */}
                         <tr className="text-center text-success fw-bold cursor-pointer">
                             <td colSpan="10">
                                 <i className="fas fa-plus me-2" /><Link className="btn btn-success" to="/newcar"> Create Ad</Link>
