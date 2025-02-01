@@ -1,22 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom"; // Import Link for routing
+import { useAuth } from "../context/AuthContext"; // Import the AuthContext
 import Cookies from "js-cookie";
 
 const Footer = () => {
     const currentYear = new Date().getFullYear(); // Get the current year
     const [stats, setStats] = useState(null);
-    const userRole = Cookies.get("userRole");
+    const { user } = useAuth(); // Get the current user from the AuthContext
+    const userRole = user?.role; // Get the role from the user object (use optional chaining)
 
     useEffect(() => {
         if (userRole === "ADMIN") {
-            const getCookieValue = (name) => {
-                const value = `; ${document.cookie}`;
-                const parts = value.split(`; ${name}=`);
-                if (parts.length === 2) return parts.pop().split(';').shift();
-            };
-    
-            const authToken = getCookieValue('authToken');
-    
+            const authToken =  Cookies.get("authToken"); // Get auth token from localStorage
+
             fetch("/admin/stats", {
                 method: 'GET',
                 headers: {
@@ -28,8 +24,7 @@ const Footer = () => {
                 .then((data) => setStats(data))
                 .catch((err) => console.error("Error fetching system stats:", err));
         }
-    }, [userRole]);
-    
+    }, [userRole]); // Depend on userRole
 
     return (
         <footer style={styles.footer}>
@@ -48,8 +43,8 @@ const Footer = () => {
             {userRole === "ADMIN" && stats && (
                 <div style={styles.statsSection}>
                     <h3>System Stats</h3>
-                    <p>Free Memory: {stats.freeMemory} GB</p>
-                    <p>Active Threads: {stats.activeThreads}</p>
+                    <p>Free Memory: {stats.data.FREE_MEMORY_MB} GB</p>
+                    <p>Active Threads: {stats.data.ACTIVE_THREADS_COUNT}</p>
                 </div>
             )}
         </footer>
