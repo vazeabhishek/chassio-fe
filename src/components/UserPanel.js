@@ -56,6 +56,7 @@ const UserPanel = () => {
                         <th><i className="fas fa-eye text-info me-3" /></th>
                         <th><i className="fas fa-gear text-info me-3" /></th>
                         <th><i className="fas fa-globe text-info me-3"></i></th>
+                        <th><i className="fas fa-exclamation-circle text-info me-3"></i></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -82,6 +83,7 @@ const UserPanel = () => {
                                         Leads <i className="fas fa-arrow-down text-dark me-2" />
                                     </button>
                                 </td>
+                                <td>{car.carStatus}</td>
                             </tr>
                             {visibleRows[car.carId] && leadsData[car.carId] && (
                                 <tr>
@@ -119,7 +121,7 @@ const UserPanel = () => {
                     ))}
                     {/* Add Car Row */}
                     <tr className="text-center text-success fw-bold cursor-pointer">
-                        <td colSpan="9">
+                        <td colSpan="10">
                             <i className="fas fa-plus me-2" /><Link className="btn btn-success" to="/newcar"> Create Ad</Link>
                         </td>
                     </tr>
