@@ -9,20 +9,33 @@ const AdminPanel = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchPendingCars = async () => {
-            try {
-                const response = await customFetch("/admin/cars?type=PENDING"); // Adjust the API endpoint as needed
-                const data = await response.json();
-                setCars(data);
-            } catch (err) {
-                setError("Failed to fetch pending vehicle ads.");
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchPendingCars();
     }, []);
+
+    const fetchPendingCars = async () => {
+        try {
+            const response = await customFetch("/admin/cars?type=PENDING");
+            const data = await response.json();
+            setCars(data);
+        } catch (err) {
+            setError("Failed to fetch pending vehicle ads.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleAction = async (carId, actionType) => {
+        try {
+            await customFetch(`/admin/cars/${carId}?type=${actionType}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+            });
+            setCars((prevCars) => prevCars.filter((car) => car.carId !== carId));
+        } catch (error) {
+            console.error(`Error processing ${actionType.toLowerCase()} for car:`, error);
+            setError(`Failed to ${actionType.toLowerCase()} the vehicle.`);
+        }
+    };
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p className="text-danger">{error}</p>;
@@ -63,12 +76,12 @@ const AdminPanel = () => {
                                 <i className="fas fa-image text-primary me-2" />
                             </td>
                             <td>
-                                <button className="btn btn-success btn-sm me-2">
+                                <button className="btn btn-success btn-sm me-2" onClick={() => handleAction(car.carId, "APPROVED")}>
                                     Approve
                                 </button>
                             </td>
                             <td>
-                                <button className="btn btn-danger btn-sm me-2">
+                                <button className="btn btn-danger btn-sm me-2" onClick={() => handleAction(car.carId, "REJECTED")}>
                                     Reject
                                 </button>
                             </td>
