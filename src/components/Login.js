@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
-import Cookies from "js-cookie";
+import { useAuth } from "../context/AuthContext"; // Adjust the path as necessary
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -8,6 +7,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,11 +19,7 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post("/public/users/login", { email, password });
-      const { token, myCarsList, user } = response.data.data;
-      Cookies.set("authToken", token, { expires: 7, path: "/" });
-      localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("username", user.name);
+      const myCarsList = await login(email, password);
       navigate("/home", { state: { cars: myCarsList } });
     } catch (err) {
       setError("Login failed: " + (err.response?.data?.message || err.message));

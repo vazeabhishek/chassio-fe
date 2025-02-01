@@ -15,6 +15,7 @@ import AboutUs from "./components/AboutUs";
 import DataStoragePolicy from "./components/DataStoragePolicy";
 import TermsAndConditions from "./components/TermsAndConditions";
 import CarForm from "./components/CarForm";
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   const [selectedCity, setSelectedCity] = useState(null);
@@ -45,6 +46,7 @@ function App() {
   }, []);
 
   return (
+    <AuthProvider>
     <Router>
       <div>
         <Header />
@@ -71,6 +73,7 @@ function App() {
         <Footer />
       </div>
     </Router>
+    </AuthProvider>
   );
 }
 

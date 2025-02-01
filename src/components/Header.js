@@ -1,20 +1,15 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
+import { useAuth } from "../context/AuthContext"; // Adjust the path as necessary
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Header = () => {
   const navigate = useNavigate();
-  
-  // Check if the user is logged in and get the username
-  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-  const username = localStorage.getItem("username");
+  const { isLoggedIn, user, logout } = useAuth(); // Get values from AuthContext
 
   // Handle sign out
   const handleSignOut = () => {
-    Cookies.remove("authToken");
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("username");
+    logout(); // Use logout function from context
     navigate("/login");
   };
 
@@ -55,7 +50,7 @@ const Header = () => {
                   fontWeight: "bold",
                 }}
               >
-                Welcome, {username}!
+                Welcome, {user.name}!
               </span>
               <button
                 className="btn w-100"
