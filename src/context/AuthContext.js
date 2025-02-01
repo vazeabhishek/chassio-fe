@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     const response = await axios.post("/public/users/login", { email, password });
     const { token, myCarsList, user: loggedInUser } = response.data.data;
-    
+
     Cookies.set("authToken", token, { expires: 7, path: "/" });
     Cookies.set("userRole", loggedInUser.role);
     localStorage.setItem("isLoggedIn", "true");
@@ -23,15 +23,15 @@ export const AuthProvider = ({ children }) => {
 
     setIsLoggedIn(true);
     setUser(loggedInUser);
-    
+
     return myCarsList; // Return any data you need
   };
 
   const logout = () => {
-    Cookies.remove("authToken");
-    Cookies.remove("userRole");
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("username");
+    document.cookie.split(";").forEach((c) => {
+      document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+    });
+    localStorage.clear();
     setIsLoggedIn(false);
     setUser(null);
   };
