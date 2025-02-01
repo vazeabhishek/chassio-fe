@@ -3,7 +3,7 @@ import { customFetch } from "../utils/api";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext"; // Import the AuthContext
 
-const Home = () => {
+const UserPanel = () => {
     const navigate = useNavigate();
     const cars = JSON.parse(localStorage.getItem('myCarsList')) || [];
     const [leadsData, setLeadsData] = useState({});
@@ -13,7 +13,7 @@ const Home = () => {
 
     // Check if user has the correct role
     useEffect(() => {
-        const redirectPath = userRole === "SIGNED_USER" ? "/home" :
+        const redirectPath = userRole === "SIGNED_USER" ? "/userpanel" :
             userRole === "ADMIN" ? "/adminpanel" :
                 "/login";
          navigate(redirectPath);
@@ -129,4 +129,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default UserPanel;

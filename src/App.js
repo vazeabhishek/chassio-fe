@@ -9,7 +9,7 @@ import CarList from "./components/CarList";
 import Footer from "./components/Footer";
 import Filter from "./components/Filter";
 import Login from "./components/Login";
-import Home from "./components/Home";
+import UserPanel from "./components/UserPanel";
 import SignUp from "./components/SignUp";
 import AboutUs from "./components/AboutUs";
 import DataStoragePolicy from "./components/DataStoragePolicy";
@@ -65,7 +65,7 @@ function App() {
           />
           <Route path="/login" element={<Login />} />
           <Route path="/newcar" element={<CarForm />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/userpanel" element={<UserPanel />} />
           <Route path="/adminpanel" element={<AdminPanel />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/aboutus" element={<AboutUs />} />

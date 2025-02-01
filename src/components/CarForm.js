@@ -129,7 +129,7 @@ const CarForm = () => {
       });
 
       setSuccess("Car details submitted successfully! Redirecting...");
-      setTimeout(() => navigate("/home"), 4000);
+      setTimeout(() => navigate("/userpanel"), 4000);
     } catch (err) {
       setError("Submission failed: " + (err.response?.data?.message || err.message));
     }
