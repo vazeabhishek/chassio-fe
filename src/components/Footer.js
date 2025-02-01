@@ -43,7 +43,7 @@ const Footer = () => {
             {userRole === "ADMIN" && stats && (
                 <div style={styles.statsSection}>
                     <h3>System Stats</h3>
-                    <p>Free Memory: {stats.data.FREE_MEMORY_MB} GB</p>
+                    <p>Free Memory: {stats.data.FREE_MEMORY_MB} MB</p>
                     <p>Active Threads: {stats.data.ACTIVE_THREADS_COUNT}</p>
                 </div>
             )}

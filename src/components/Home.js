@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { customFetch } from "../utils/api";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext"; // Import the AuthContext
 
 const Home = () => {
     const navigate = useNavigate();
@@ -9,13 +10,17 @@ const Home = () => {
     const [leadsData, setLeadsData] = useState({});
     const [visibleRows, setVisibleRows] = useState({});
 
-    // Check if user is authenticated
+    const { user } = useAuth(); // Get the user from AuthContext
+    const userRole = user?.role; // Get the role from the user object
+
+    // Check if user has the correct role
     useEffect(() => {
-        const userToken = document.cookie.split("; ").find(row => row.startsWith("authToken="));
-        if (!userToken) {
-            navigate("/login"); // Redirect if not authenticated
-        }
-    }, [navigate]);
+        const redirectPath = userRole === "SIGNED_USER" ? "/home" :
+            userRole === "ADMIN" ? "/adminpanel" :
+                "/login";
+         navigate(redirectPath);
+
+    }, [userRole, navigate]);
 
     const toggleLeads = async (carId) => {
         if (visibleRows[carId]) {
@@ -32,6 +37,11 @@ const Home = () => {
             console.error("Failed to fetch leads:", error);
         }
     };
+
+    // Only render if the user is a SIGNED_USER
+    if (userRole !== "SIGNED_USER") {
+        return null; // Optionally, you could render a loading state or a message here instead
+    }
 
     return (
         <div className="container mt-5">
