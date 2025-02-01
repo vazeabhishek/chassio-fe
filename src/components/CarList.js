@@ -12,7 +12,7 @@ const CarList = ({selectedCity}) => {
 
     useEffect(() => {
         // Replace the URL with your API endpoint
-        customFetch(`${API_BASE_URL}/public/cars?carStatusType=NEW`)
+        customFetch(`${API_BASE_URL}/public/cars`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Failed to fetch car data");
