@@ -20,7 +20,8 @@ const Login = () => {
 
     try {
       const myCarsList = await login(email, password);
-      navigate("/home", { state: { cars: myCarsList } });
+      localStorage.setItem('myCarsList', JSON.stringify(myCarsList));
+      navigate("/home");
     } catch (err) {
       setError("Login failed: " + (err.response?.data?.message || err.message));
     }

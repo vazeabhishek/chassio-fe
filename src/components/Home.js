@@ -5,11 +5,9 @@ import { useAuth } from "../context/AuthContext"; // Import the AuthContext
 
 const Home = () => {
     const navigate = useNavigate();
-    const location = useLocation();
-    const cars = location.state?.cars || [];
+    const cars = JSON.parse(localStorage.getItem('myCarsList')) || [];
     const [leadsData, setLeadsData] = useState({});
     const [visibleRows, setVisibleRows] = useState({});
-
     const { user } = useAuth(); // Get the user from AuthContext
     const userRole = user?.role; // Get the role from the user object
 

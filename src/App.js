@@ -66,7 +66,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/newcar" element={<CarForm />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/adminPanel" element={<AdminPanel />} />
+          <Route path="/adminpanel" element={<AdminPanel />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/datastoragepolicy" element={<DataStoragePolicy />} />
