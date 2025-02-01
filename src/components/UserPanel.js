@@ -2,24 +2,79 @@ import React, { useState, useEffect } from "react";
 import { customFetch } from "../utils/api";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import ConfirmationDialog from './ConfirmationDialog';
+import ConfirmationDialog from "./ConfirmationDialog";
 
 const UserPanel = () => {
+    const ActionTypes = {
+        DELETE: "DELETE",
+        MARK_SOLD: "MARK_SOLD",
+    };
+
     const navigate = useNavigate();
-    const cars = JSON.parse(localStorage.getItem('myCarsList')) || [];
-    const [leadsData, setLeadsData] = useState({});
-    const [visibleRows, setVisibleRows] = useState({});
     const { user } = useAuth();
     const userRole = user?.role;
+
+    const [cars, setCars] = useState(() => JSON.parse(localStorage.getItem("myCarsList")) || []);
+    const [leadsData, setLeadsData] = useState({});
+    const [visibleRows, setVisibleRows] = useState({});
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [getCurrentId, setCurrentId] = useState(true);
+    const [currentId, setCurrentId] = useState(null);
+    const [currentAction, setCurrentAction] = useState(null);
 
     useEffect(() => {
-        const redirectPath = userRole === "SIGNED_USER" ? "/userpanel" :
-            userRole === "ADMIN" ? "/adminpanel" :
-                "/login";
-        navigate(redirectPath);
+        if (userRole !== "SIGNED_USER" && userRole !== "ADMIN") {
+            navigate("/login");
+        }
     }, [userRole, navigate]);
+
+    const handleConfirm = async (confirmed) => {
+        if (confirmed) {
+            if (currentAction === ActionTypes.DELETE) {
+                await handleDeleteCar(currentId);
+            } else if (currentAction === ActionTypes.MARK_SOLD) {
+                await markCarAsSold(currentId);
+            }
+        }
+        setIsDialogOpen(false);
+    };
+
+    const openDialog = (carId, actionType) => {
+        setIsDialogOpen(true);
+        setCurrentId(carId);
+        setCurrentAction(actionType);
+    };
+
+    const getDialogMessage = () => {
+        return currentAction === ActionTypes.DELETE
+            ? "Are you sure you want to remove this ad?"
+            : "Are you sure you want to mark this ad as SOLD?";
+    };
+
+    const handleDeleteCar = async (carId) => {
+        try {
+            await customFetch(`/private/cars/${carId}`, { method: "DELETE" });
+
+            setCars((prevCars) => {
+                const updatedCars = prevCars.filter((car) => car.carId !== carId);
+                localStorage.setItem("myCarsList", JSON.stringify(updatedCars));
+                return updatedCars;
+            });
+        } catch (error) {
+            console.error(`Error deleting ${carId}`, error);
+        }
+    };
+
+    const markCarAsSold = async (carId) => {
+        try {
+            const response = await customFetch(`/private/cars/${carId}/sold`, { method: "PUT" });
+            const updatedCars = await response.json();
+
+            setCars(updatedCars);
+            localStorage.setItem("myCarsList", JSON.stringify(updatedCars));
+        } catch (error) {
+            console.error(`Error marking ${carId} as sold`, error);
+        }
+    };
 
     const toggleLeads = async (carId) => {
         if (visibleRows[carId]) {
@@ -30,23 +85,12 @@ const UserPanel = () => {
         try {
             const response = await customFetch(`/private/cars/${carId}/leads`);
             const data = await response.json();
+
             setLeadsData((prevData) => ({ ...prevData, [carId]: data }));
             setVisibleRows((prev) => ({ ...prev, [carId]: true }));
         } catch (error) {
             console.error("Failed to fetch leads:", error);
         }
-    };
-
-    const handleConfirm = (confirmed) => {
-        if (confirmed) {
-            console.log('call the api to delete' + getCurrentId);
-        }
-        setIsDialogOpen(false);
-    };
-
-    const openDialog = (carId) => {
-        setIsDialogOpen(true);
-        setCurrentId(carId);
     };
 
     if (userRole !== "SIGNED_USER") {
@@ -55,26 +99,22 @@ const UserPanel = () => {
 
     return (
         <div className="container mt-5">
-            <ConfirmationDialog
-                isOpen={isDialogOpen}
-                message="Remove this ad?"
-                onClose={handleConfirm}
-            />
-            <div style={{ display: !isDialogOpen ? 'block' : 'none' }}>
+            <ConfirmationDialog isOpen={isDialogOpen} message={getDialogMessage()} onClose={handleConfirm} />
+            <div style={{ display: !isDialogOpen ? "block" : "none" }}>
                 <h1>My Vehicles Ads</h1>
                 <table className="table table-striped">
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th><i className="fas fa-car text-info me-3" /></th>
-                            <th><i className="fas fa-clock text-info me-3" /></th>
-                            <th><i className="fas fa-city text-info me-3" /></th>
-                            <th><i className="fas fa-thumbs-up text-info me-3" /></th>
-                            <th><i className="fas fa-thumbs-down text-info me-3" /></th>
-                            <th><i className="fas fa-eye text-info me-3" /></th>
-                            <th><i className="fas fa-gear text-info me-3" /></th>
-                            <th><i className="fas fa-globe text-info me-3"></i></th>
-                            <th><i className="fas fa-exclamation-circle text-info me-3"></i></th>
+                            <th>Car</th>
+                            <th>Year</th>
+                            <th>City</th>
+                            <th>Likes</th>
+                            <th>Dislikes</th>
+                            <th>Views</th>
+                            <th>Actions</th>
+                            <th>Leads</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -89,15 +129,11 @@ const UserPanel = () => {
                                     <td>{car.dislikeCount}</td>
                                     <td>{car.viewCount}</td>
                                     <td>
-                                        <i className="fas fa-check text-success me-3" />
-                                        <i className="fas fa-remove text-danger me-3" onClick={() => openDialog(car.carId)} />
-                                        <i className="fas fa-image text-primary me-2" />
+                                        <i className="fas fa-check text-success me-3" onClick={() => openDialog(car.carId, ActionTypes.MARK_SOLD)} />
+                                        <i className="fas fa-trash text-danger me-3" onClick={() => openDialog(car.carId, ActionTypes.DELETE)} />
                                     </td>
                                     <td>
-                                        <button
-                                            className="btn btn-success btn-sm me-2"
-                                            onClick={() => toggleLeads(car.carId)}
-                                        >
+                                        <button className="btn btn-success btn-sm" onClick={() => toggleLeads(car.carId)}>
                                             Leads <i className="fas fa-arrow-down text-dark me-2" />
                                         </button>
                                     </td>
@@ -105,7 +141,7 @@ const UserPanel = () => {
                                 </tr>
                                 {visibleRows[car.carId] && leadsData[car.carId] && (
                                     <tr>
-                                        <td colSpan="9">
+                                        <td colSpan="10">
                                             <table className="table table-bordered mt-3">
                                                 <thead>
                                                     <tr>
@@ -139,7 +175,8 @@ const UserPanel = () => {
                         ))}
                         <tr className="text-center text-success fw-bold cursor-pointer">
                             <td colSpan="10">
-                                <i className="fas fa-plus me-2" /><Link className="btn btn-success" to="/newcar"> Create Ad</Link>
+                                <i className="fas fa-plus me-2" />
+                                <Link className="btn btn-success" to="/newcar"> Create Ad</Link>
                             </td>
                         </tr>
                     </tbody>
