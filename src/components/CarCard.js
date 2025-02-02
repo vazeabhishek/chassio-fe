@@ -28,8 +28,8 @@ const CarCard = ({ car, onLike, onDislike }) => {
     return (
         <div className="card h-100">
             {showCarousel && (
-                                            <Carousel images={carouselImages} onClose={() => setShowCarousel(false)} carName={selectedCarName} />
-                                        )}
+                <Carousel images={carouselImages} onClose={() => setShowCarousel(false)} carName={selectedCarName} />
+            )}
             <img
                 src={car.imageLinks[0]}
                 className="card-img-top"

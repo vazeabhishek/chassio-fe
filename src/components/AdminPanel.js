@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { customFetch } from "../utils/api";
 import { useAuth } from "../context/AuthContext"; // Import the AuthContext
+import Carousel from './Carousel';
 
 const AdminPanel = () => {
-    const { user } = useAuth();
     const [cars, setCars] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [showCarousel, setShowCarousel] = useState(false);
+    const [carouselImages, setCarouselImages] = useState([]);
+    const [selectedCarName, setSelectedCarName] = useState("");
 
     useEffect(() => {
         console.log("i am in admin panel")
@@ -36,6 +39,12 @@ const AdminPanel = () => {
             console.error(`Error processing ${actionType.toLowerCase()} for car:`, error);
             setError(`Failed to ${actionType.toLowerCase()} the vehicle.`);
         }
+    };
+
+    const handleCarImageClick = (images, carName) => {
+        setCarouselImages(images);
+        setSelectedCarName(carName);
+        setShowCarousel(true);
     };
 
     if (loading) return <p>Loading...</p>;
@@ -74,7 +83,10 @@ const AdminPanel = () => {
                             <td>{car.askPrice}</td>
                             <td>{car.anyOtherNote}</td>
                             <td>
-                                <i className="fas fa-image text-primary me-2" />
+                                <i className="fas fa-image text-primary me-2" onClick={() => handleCarImageClick(car.imageLinks, car.make + " " + car.model)}/>
+                                {showCarousel && (
+                                            <Carousel images={carouselImages} onClose={() => setShowCarousel(false)} carName={selectedCarName} />
+                                        )}
                             </td>
                             <td>
                                 <button className="btn btn-success btn-sm me-2" onClick={() => handleAction(car.carId, "APPROVED")}>
