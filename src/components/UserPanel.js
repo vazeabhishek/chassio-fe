@@ -3,11 +3,12 @@ import { customFetch } from "../utils/api";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import ConfirmationDialog from "./ConfirmationDialog";
+import Carousel from './Carousel';
 
 const UserPanel = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    
+
     const ActionTypes = {
         DELETE: "DELETE",
         MARK_SOLD: "MARK_SOLD",
@@ -23,6 +24,10 @@ const UserPanel = () => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [currentId, setCurrentId] = useState(null);
     const [currentAction, setCurrentAction] = useState(null);
+    const [showCarousel, setShowCarousel] = useState(false);
+    const [carouselImages, setCarouselImages] = useState([]);
+    const [selectedCarName, setSelectedCarName] = useState("");
+
 
     useEffect(() => {
         if (userRole !== "SIGNED_USER" && userRole !== "ADMIN") {
@@ -37,7 +42,7 @@ const UserPanel = () => {
             const data = await response.json();
             console.log(data);
             setCars(data);
-            localStorage.setItem("myCarsList",JSON.stringify(data));
+            localStorage.setItem("myCarsList", JSON.stringify(data));
         } catch (err) {
             setError("Failed to fetch pending vehicle ads.");
         } finally {
@@ -111,6 +116,12 @@ const UserPanel = () => {
         }
     };
 
+    const handleCarImageClick = (images, carName) => {
+        setCarouselImages(images);
+        setSelectedCarName(carName);
+        setShowCarousel(true);
+    };
+
     if (userRole !== "SIGNED_USER") {
         return null;
     }
@@ -149,6 +160,10 @@ const UserPanel = () => {
                                     <td>
                                         <i className="fas fa-check text-success me-3" onClick={() => openDialog(car.carId, ActionTypes.MARK_SOLD)} />
                                         <i className="fas fa-trash text-danger me-3" onClick={() => openDialog(car.carId, ActionTypes.DELETE)} />
+                                        <i className="fas fa-image text-image me-3" onClick={() => handleCarImageClick(car.imageLinks, car.make + " " + car.model)} />
+                                        {showCarousel && (
+                                            <Carousel images={carouselImages} onClose={() => setShowCarousel(false)} carName={selectedCarName} />
+                                        )}
                                     </td>
                                     <td>
                                         <button className="btn btn-success btn-sm" onClick={() => toggleLeads(car.carId)}>
