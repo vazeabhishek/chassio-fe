@@ -9,6 +9,7 @@ const AdminPanel = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        console.log("i am in admin panel")
         fetchPendingCars();
     }, []);
 

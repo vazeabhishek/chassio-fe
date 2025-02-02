@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
     const { token, myCarsList, user: loggedInUser } = response.data.data;
 
     Cookies.set("authToken", token, { expires: 7, path: "/" });
-    Cookies.set("userRole", loggedInUser.role);
+    localStorage.setItem("userRole", loggedInUser.role);
     localStorage.setItem("isLoggedIn", "true");
     localStorage.setItem("username", loggedInUser.name);
 

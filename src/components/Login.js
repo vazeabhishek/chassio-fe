@@ -21,7 +21,13 @@ const Login = () => {
     try {
       const myCarsList = await login(email, password);
       localStorage.setItem('myCarsList', JSON.stringify(myCarsList));
-      navigate("/userpanel");
+      const userRole = localStorage.getItem("userRole");
+
+      if (userRole === "ADMIN") {
+        navigate("/adminpanel");
+      } else {
+        navigate("/userpanel");
+      }
     } catch (err) {
       setError("Login failed: " + (err.response?.data?.message || err.message));
     }
