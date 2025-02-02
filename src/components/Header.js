@@ -1,13 +1,12 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext"; // Adjust the path as necessary
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const Header = () => {
   const navigate = useNavigate();
   const { isLoggedIn, user, logout } = useAuth(); // Get values from AuthContext
 
-  // Handle sign out
   const handleSignOut = () => {
     logout(); // Use logout function from context
     navigate("/login");
@@ -15,7 +14,7 @@ const Header = () => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a
+      <Link
         className="navbar-brand ms-4"
         style={{
           color: "#FF8C00",
@@ -23,10 +22,10 @@ const Header = () => {
           fontFamily: "'Courier New', Courier, monospace",
           fontWeight: "bold",
         }}
-        href="/"
+        to="/" // Changed from <a href="/"> to <Link to="/">
       >
         Chassio
-      </a>
+      </Link>
       <button
         className="navbar-toggler"
         type="button"
@@ -50,7 +49,7 @@ const Header = () => {
                   fontWeight: "bold",
                 }}
               >
-                Welcome, {user.name}!
+                Welcome, {user?.name || "User"}!
               </span>
               <button
                 className="btn w-100"
