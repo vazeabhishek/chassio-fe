@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import EnquiryForm from "./EnquiryForm";
+import Carousel from './Carousel';
 
 const CarCard = ({ car, onLike, onDislike }) => {
     const [showEnquiryModal, setShowEnquiryModal] = useState(false);
-    const [showImageModal, setShowImageModal] = useState(false);
     const [currentCarId, setCurrentCarId] = useState(null);
-    const [imageLinks, setImageLinks] = useState([]);
+    const [showCarousel, setShowCarousel] = useState(false);
+    const [carouselImages, setCarouselImages] = useState([]);
+    const [selectedCarName, setSelectedCarName] = useState("");
 
     const handleDealClick = (carId) => {
         setCurrentCarId(carId);
@@ -17,24 +19,22 @@ const CarCard = ({ car, onLike, onDislike }) => {
         setCurrentCarId(null);
     };
 
-    const handleImageClick = () => {
-        console.log("Thumbnail clicked for car:", car);
-        setImageLinks(car.imageLinks);
-        setShowImageModal(true);
-    };
-
-    const handleCloseImageModal = () => {
-        setShowImageModal(false);
-        setImageLinks([]);
+    const handleCarImageClick = (images, carName) => {
+        setCarouselImages(images);
+        setSelectedCarName(carName);
+        setShowCarousel(true);
     };
 
     return (
         <div className="card h-100">
+            {showCarousel && (
+                                            <Carousel images={carouselImages} onClose={() => setShowCarousel(false)} carName={selectedCarName} />
+                                        )}
             <img
                 src={car.imageLinks[0]}
                 className="card-img-top"
                 alt={car.make}
-                onClick={handleImageClick}
+                onClick={() => handleCarImageClick(car.imageLinks, car.make + " " + car.model)}
                 style={{ cursor: "pointer" }}
             />
             <div className="card-body">
@@ -46,7 +46,6 @@ const CarCard = ({ car, onLike, onDislike }) => {
                             className="fas fa-thumbs-up text-primary me-2"
                             style={{ cursor: "pointer" }}
                             onClick={() => {
-                                console.log("Liked car ID:", car.carId);
                                 onLike(car.carId);
                             }}
                         >
@@ -56,7 +55,6 @@ const CarCard = ({ car, onLike, onDislike }) => {
                             className="fas fa-thumbs-down text-danger me-2"
                             style={{ cursor: "pointer" }}
                             onClick={() => {
-                                console.log("Disliked car ID:", car.carId);
                                 onDislike(car.carId);
                             }}
                         >
@@ -88,39 +86,6 @@ const CarCard = ({ car, onLike, onDislike }) => {
                     </div>
                 </div>
             </div>
-
-            {/* Image Modal */}
-            <div className={`modal fade ${showImageModal ? "show" : ""}`} style={{ display: showImageModal ? "block" : "none" }} tabIndex="-1" aria-hidden={!showImageModal}>
-                <div className="modal-dialog modal-lg">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title">Car Images</h5>
-                            <button type="button" className="btn-close" onClick={handleCloseImageModal} aria-label="Close"></button>
-                        </div>
-                        <div className="modal-body">
-                            <div id="carImageCarousel" className="carousel slide" data-bs-ride="carousel">
-                                <div className="carousel-inner">
-                                    {imageLinks.map((link, index) => (
-                                        <div className={`carousel-item ${index === 0 ? "active" : ""}`} key={link}>
-                                            <img src={link} className="d-block w-100" alt={`Car image ${index + 1}`} />
-                                        </div>
-                                    ))}
-                                </div>
-                                <button className="carousel-control-prev" type="button" data-bs-target="#carImageCarousel" data-bs-slide="prev">
-                                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span className="visually-hidden">Previous</span>
-                                </button>
-                                <button className="carousel-control-next" type="button" data-bs-target="#carImageCarousel" data-bs-slide="next">
-                                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span className="visually-hidden">Next</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
         </div>
     );
 };
