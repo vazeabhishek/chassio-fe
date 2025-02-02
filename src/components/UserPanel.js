@@ -5,6 +5,9 @@ import { useAuth } from "../context/AuthContext";
 import ConfirmationDialog from "./ConfirmationDialog";
 
 const UserPanel = () => {
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    
     const ActionTypes = {
         DELETE: "DELETE",
         MARK_SOLD: "MARK_SOLD",
@@ -25,7 +28,22 @@ const UserPanel = () => {
         if (userRole !== "SIGNED_USER" && userRole !== "ADMIN") {
             navigate("/login");
         }
+        fetchMyCars();
     }, [userRole, navigate]);
+
+    const fetchMyCars = async () => {
+        try {
+            const response = await customFetch("/private/users/cars");
+            const data = await response.json();
+            console.log(data);
+            setCars(data);
+            localStorage.setItem("myCarsList",JSON.stringify(data));
+        } catch (err) {
+            setError("Failed to fetch pending vehicle ads.");
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handleConfirm = async (confirmed) => {
         if (confirmed) {
