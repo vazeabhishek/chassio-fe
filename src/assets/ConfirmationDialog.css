@@ -1,0 +1,38 @@
+/* CSS */
+.confirmation-dialog-no-button, .confirmation-dialog-yes-button {
+    border: none;
+    padding: 10px 15px;
+    height: 40px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+    white-space: nowrap;
+}
+
+.confirmation-dialog-no-button {
+    background-color: red;
+    color: white;
+}
+
+.confirmation-dialog-no-button:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+
+.confirmation-dialog-yes-button {
+    background-color: green; 
+    color: white;
+}
+
+.confirmation-dialog-yes-button:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* ... other styles ... */

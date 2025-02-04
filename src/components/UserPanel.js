@@ -53,6 +53,8 @@ const UserPanel = () => {
     };
 
     const handleConfirm = async (confirmed) => {
+        console.log("action happened");
+        setIsDialogOpen(false);
         if (confirmed) {
             if (currentAction === ActionTypes.DELETE) {
                 await handleDeleteCar(currentId);
@@ -60,7 +62,7 @@ const UserPanel = () => {
                 await markCarAsSold(currentId);
             }
         }
-        setIsDialogOpen(false);
+        
     };
 
     const openDialog = (carId, actionType) => {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../assets/ConfirmationDialog.css';
 
 const ConfirmationDialog = ({ isOpen, message, onClose }) => {
   // State to manage background freeze
@@ -31,13 +32,13 @@ const ConfirmationDialog = ({ isOpen, message, onClose }) => {
         <p className="mb-6 font-bold">{message}</p>
         <div className="flex justify-center gap-4">
           <button
-            className="px-4 py-2 bg-success rounded"
+            className="confirmation-dialog-no-button" // NEW CLASS
             onClick={() => onClose(false)}
           >
             No
           </button>
           <button
-            className="px-4 py-2 bg-danger text-white rounded"
+            className="confirmation-dialog-yes-button" // NEW CLASS
             onClick={() => onClose(true)}
           >
             Yes

@@ -21,6 +21,7 @@ const Carousel = ({ images, onClose }) => {
     } else if (event.key === 'ArrowLeft') {
       handlePrev();
     } else if (event.key === 'Escape') {
+      console.log("OnClose event happened");
       onClose();
     }
   }, [handleNext, handlePrev, onClose]);
