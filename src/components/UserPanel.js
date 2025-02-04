@@ -5,6 +5,8 @@ import { useAuth } from "../context/AuthContext";
 import ConfirmationDialog from "./ConfirmationDialog";
 import Carousel from './Carousel';
 
+import '../assets/UserPanel.css';
+
 const UserPanel = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -157,16 +159,33 @@ const UserPanel = () => {
                                     <td>{car.likeCount}</td>
                                     <td>{car.dislikeCount}</td>
                                     <td>{car.viewCount}</td>
-                                    <td>
-                                        <i className="fas fa-check text-success me-3" onClick={() => openDialog(car.carId, ActionTypes.MARK_SOLD)} />
-                                        <i className="fas fa-trash text-danger me-3" onClick={() => openDialog(car.carId, ActionTypes.DELETE)} />
-                                        <i className="fas fa-image text-image me-3" onClick={() => handleCarImageClick(car.imageLinks, car.make + " " + car.model)} />
-                                        {showCarousel && (
-                                            <Carousel images={carouselImages} onClose={() => setShowCarousel(false)} carName={selectedCarName} />
-                                        )}
+                                    <td>   
+                                        <div className="button-container"> {/* Container for buttons */}
+                                            <button
+                                                className="square-button"
+                                                onClick={() => openDialog(car.carId, ActionTypes.MARK_SOLD)}
+                                            >
+                                                <i className="fas fa-check" /> {/* Removed me-3 */}
+                                            </button>
+                                            <button
+                                                className="square-button"
+                                                onClick={() => openDialog(car.carId, ActionTypes.DELETE)}
+                                            >
+                                                <i className="fas fa-trash" /> {/* Removed me-3 */}
+                                            </button>
+                                            <button
+                                                className="square-button"
+                                                onClick={() => handleCarImageClick(car.imageLinks, car.make + " " + car.model)}
+                                            >
+                                                <i className="fas fa-image text-image" /> {/* Removed me-3 */}
+                                                {showCarousel && (
+                                                    <Carousel images={carouselImages} onClose={() => setShowCarousel(false)} carName={selectedCarName} />
+                                                )}
+                                            </button>
+                                        </div>
                                     </td>
                                     <td>
-                                        <button className="btn btn-success btn-sm" onClick={() => toggleLeads(car.carId)}>
+                                        <button className="green-rectangle-button" onClick={() => toggleLeads(car.carId)}>
                                             Leads <i className="fas fa-arrow-down text-dark me-2" />
                                         </button>
                                     </td>

@@ -1,0 +1,72 @@
+/* CSS */
+.button-container {
+  display: flex;
+  gap: 10px; /* Adjust the gap value as needed */ /* or use margin-right on the button */
+}
+
+.square-button {
+  border: none;
+  padding: 10px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  background-color: orange;
+  color: black(30, 28, 28);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.square-button:hover {
+    background-color: #FF8C00;
+    transform: translateY(-2px);
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.4);
+  }
+  
+  .square-button i {
+    margin: 0;
+    font-size: 1.2rem;
+  }
+  
+  .square-button:active {
+    transform: translateY(0);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  }
+
+  /* CSS */
+/* CSS */
+.green-rectangle-button { /* Updated class name */
+  border: none;
+  padding: 10px 15px; /* Adjusted padding: more horizontal padding */
+  height: 40px; /* Keep the same height */
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: green;
+  color: white;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+  white-space: nowrap; /* Prevent text from wrapping */
+}
+
+.green-rectangle-button:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.4);
+  }
+  
+  .green-rectangle-button i {
+    margin-left: 5px;
+    font-size: 1rem;
+    color: black;
+  }
+  
+  .green-rectangle-button:active {
+    transform: translateY(0);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  }
+
+/* ... other styles ... */
