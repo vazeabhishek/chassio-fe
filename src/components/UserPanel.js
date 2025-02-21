@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import ConfirmationDialog from "./ConfirmationDialog";
 import Carousel from './Carousel';
-
 import '../assets/UserPanel.css';
 
 const UserPanel = () => {
@@ -133,6 +132,9 @@ const UserPanel = () => {
     return (
         <div className="container mt-5">
             <ConfirmationDialog isOpen={isDialogOpen} message={getDialogMessage()} onClose={handleConfirm} />
+            {showCarousel && (
+                            <Carousel images={carouselImages} onClose={() => setShowCarousel(false)} carName={selectedCarName} />
+                            )}
             <div style={{ display: !isDialogOpen ? "block" : "none" }}>
                 <h1>My Vehicles Ads</h1>
                 <table className="table table-striped">
@@ -180,9 +182,7 @@ const UserPanel = () => {
                                                 onClick={() => handleCarImageClick(car.imageLinks, car.make + " " + car.model)}
                                             >
                                                 <i className="fas fa-image text-image" /> {/* Removed me-3 */}
-                                                {showCarousel && (
-                                                    <Carousel images={carouselImages} onClose={() => setShowCarousel(false)} carName={selectedCarName} />
-                                                )}
+                                                
                                             </button>
                                         </div>
                                     </td>

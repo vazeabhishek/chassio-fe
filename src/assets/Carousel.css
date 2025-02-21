@@ -24,13 +24,29 @@
   }
   
   .carousel-close {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: none;
-      border: none;
-      font-size: 20px;
-      cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ff0000; /* Red background */
+    color: #ffffff; /* White foreground (text color) */
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 8px 12px; /* Add some padding for better button appearance */
+    border-radius: 5px; /* Slightly rounded corners */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Subtle shadow for 3D effect */
+    transition: all 0.2s ease; /* Smooth transition for hover effect */
+  }
+  
+  .carousel-close:hover {
+    background-color: #cc0000; /* Darker red on hover */
+    box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.4); /* More pronounced shadow on hover */
+    transform: translateY(-1px); /* Slight lift on hover */
+  }
+  
+  .carousel-close:active {
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Smaller shadow on click */
+    transform: translateY(0); /* No lift on click */
   }
   
   .carousel-image {

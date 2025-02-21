@@ -1,15 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext"; // Adjust the path as necessary
+import { useAuth } from "../context/AuthContext";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const Header = () => {
   const navigate = useNavigate();
-  const { isLoggedIn, user, logout } = useAuth(); // Get values from AuthContext
+  const { isLoggedIn, user, logout } = useAuth();
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleSignOut = () => {
-    logout(); // Use logout function from context
+    logout();
     navigate("/login");
+  };
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    console.log("Searching for:", searchTerm);
+    // TODO: Implement your search logic here
   };
 
   return (
@@ -22,7 +33,7 @@ const Header = () => {
           fontFamily: "'Courier New', Courier, monospace",
           fontWeight: "bold",
         }}
-        to="/" // Changed from <a href="/"> to <Link to="/">
+        to="/"
       >
         Chassio
       </Link>
@@ -38,9 +49,23 @@ const Header = () => {
         <span className="navbar-toggler-icon"></span>
       </button>
       <div className="collapse navbar-collapse" id="navbarNav">
+        {/* Search Bar (Centered and Wide) */}
+        <form className="form-inline mx-auto w-50" onSubmit={handleSearchSubmit}>
+          <div className="input-group">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search..."
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
+            <button className="btn btn-outline-warning" type="submit">
+              Search
+            </button>
+          </div>
+        </form>
         <ul className="navbar-nav ms-auto align-items-center">
           {isLoggedIn ? (
-            // If user is logged in, show "Welcome {username}" and "Sign out" button
             <li className="nav-item d-flex flex-column align-items-center">
               <span
                 className="text-white mb-2"
@@ -62,13 +87,12 @@ const Header = () => {
                 }}
                 onMouseOver={(e) => (e.target.style.backgroundColor = "#e67e00")}
                 onMouseOut={(e) => (e.target.style.backgroundColor = "#FF8C00")}
-                onClick={handleSignOut}
+                onClick={handleSignOut} // handleSignOut is here!
               >
                 Sign out
               </button>
             </li>
           ) : (
-            // If user is not logged in, show "Sign in" and "Sign up" buttons
             <li className="nav-item d-flex flex-column align-items-center">
               <Link
                 className="btn mb-2 w-100"
