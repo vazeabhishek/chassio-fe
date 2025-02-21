@@ -60,7 +60,7 @@ const Header = () => {
               onChange={handleSearchChange}
             />
             <button className="btn btn-outline-warning" type="submit">
-              Search
+            <i className="fas fa-search" />
             </button>
           </div>
         </form>
