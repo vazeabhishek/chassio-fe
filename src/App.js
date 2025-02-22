@@ -20,6 +20,7 @@ import AdminPanel from "./components/AdminPanel";
 
 function App() {
   const [selectedCity, setSelectedCity] = useState(null);
+  const [searchResults, setSearchResults] = useState([]); // New state for search results
 
   // Fetch city from query parameter
   useEffect(() => {
@@ -31,12 +32,12 @@ function App() {
     }
   }, []);
 
-  // Fetch API data and save it in a cookie at startup
+  // Fetch API data and save it in localStorage at startup
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get("/public/data/ui");
-        localStorage.setItem("uiStaticData", JSON.stringify(response.data), { expires: 7 }); // Cookie expires in 7 days
+        localStorage.setItem("uiStaticData", JSON.stringify(response.data)); 
       } catch (error) {
         console.error("Error fetching API data:", error);
       }
@@ -49,7 +50,9 @@ function App() {
     <AuthProvider>
       <Router>
         <div>
-          <Header />
+          {/* Pass setSearchResults to Header */}
+          <Header setSearchResults={setSearchResults} />
+
           <Routes>
             <Route
               path="/"
@@ -57,7 +60,8 @@ function App() {
                 <>
                   <Filter setSelectedCity={setSelectedCity} selectedCity={selectedCity} />
                   <main>
-                    <CarList selectedCity={selectedCity} />
+                    {/* Pass searchResults along with selectedCity */}
+                    <CarList searchResults={searchResults} selectedCity={selectedCity} />
                   </main>
                 </>
               }
@@ -85,6 +89,7 @@ function App() {
             <Route path="/datastoragepolicy" element={<DataStoragePolicy />} />
             <Route path="/termsandconditions" element={<TermsAndConditions />} />
           </Routes>
+
           <Footer />
         </div>
       </Router>

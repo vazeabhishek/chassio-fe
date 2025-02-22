@@ -4,7 +4,7 @@ import { customFetch } from "../utils/api";
 import { useAuth } from "../context/AuthContext";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const Header = () => {
+const Header = ({ setSearchResults }) => {
   const navigate = useNavigate();
   const { isLoggedIn, user, logout } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
@@ -51,24 +51,22 @@ const Header = () => {
 
   const handleSearchSubmit = async (event) => {
     event.preventDefault();
-  
-    if (!searchTerm.trim()) return; // Prevent empty searches
-  
+    if (!searchTerm.trim()) return;
+
     const formattedQuery = searchTerm.trim().split(" ").join("+");
     const apiUrl = `/public/cars/search?query=${formattedQuery}`;
-  
+
     try {
       const response = await customFetch(apiUrl, { method: "GET" });
       if (!response.ok) {
         throw new Error("Failed to fetch search results");
       }
       const data = await response.json();
-      console.log("Search results:", data);
+      setSearchResults(data); // Update search results in App.js
     } catch (error) {
       console.error("Error during search:", error);
+      setSearchResults([]); // Clear results on error
     }
-  
-    setSuggestions([]); // Hide suggestions after submitting
   };
   
 
