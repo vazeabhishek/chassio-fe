@@ -13,7 +13,6 @@ const Header = ({ setSearchResults }) => {
   const [makes, setMakes] = useState([]);
 
   useEffect(() => {
-    // Load models and makes from localStorage
     const storedData = localStorage.getItem("uiStaticData");
     if (storedData) {
       try {
@@ -35,7 +34,6 @@ const Header = ({ setSearchResults }) => {
     setSearchTerm(query);
 
     if (query.length > 0) {
-      // Filter models and makes based on the search term
       const filteredModels = models.filter((model) =>
         model.toLowerCase().includes(query.toLowerCase())
       );
@@ -43,7 +41,7 @@ const Header = ({ setSearchResults }) => {
         make.toLowerCase().includes(query.toLowerCase())
       );
 
-      setSuggestions([...filteredMakes, ...filteredModels]); // Combine both
+      setSuggestions([...filteredMakes, ...filteredModels]);
     } else {
       setSuggestions([]);
     }
@@ -62,17 +60,16 @@ const Header = ({ setSearchResults }) => {
         throw new Error("Failed to fetch search results");
       }
       const data = await response.json();
-      setSearchResults(data); // Update search results in App.js
+      setSearchResults(data);
     } catch (error) {
       console.error("Error during search:", error);
-      setSearchResults([]); // Clear results on error
+      setSearchResults([]);
     }
   };
-  
 
   const handleSuggestionClick = (value) => {
-    setSearchTerm(value); // Fill search box with selected suggestion
-    setSuggestions([]); // Hide suggestions
+    setSearchTerm(value);
+    setSuggestions([]);
   };
 
   const handleSignOut = () => {
@@ -106,36 +103,36 @@ const Header = ({ setSearchResults }) => {
         <span className="navbar-toggler-icon"></span>
       </button>
       <div className="collapse navbar-collapse" id="navbarNav">
-        {/* Search Bar */}
-        <form className="form-inline mx-auto w-50 position-relative" onSubmit={handleSearchSubmit}>
-          <div className="input-group">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search models or makes..."
-              value={searchTerm}
-              onChange={handleSearchChange}
-            />
-            <button className="btn btn-outline-warning" type="submit">
-              <i className="fas fa-search" />
-            </button>
-          </div>
-          {/* Search Suggestions (Dropdown) */}
-          {suggestions.length > 0 && (
-            <ul className="list-group position-absolute w-100 mt-1" style={{ zIndex: 1000 }}>
-              {suggestions.map((item, index) => (
-                <li
-                  key={index}
-                  className="list-group-item list-group-item-action"
-                  onClick={() => handleSuggestionClick(item)}
-                  style={{ cursor: "pointer" }}
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
-          )}
-        </form>
+        {!isLoggedIn && (
+          <form className="form-inline mx-auto w-50 position-relative" onSubmit={handleSearchSubmit}>
+            <div className="input-group">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Search models or makes..."
+                value={searchTerm}
+                onChange={handleSearchChange}
+              />
+              <button className="btn btn-outline-warning" type="submit">
+                <i className="fas fa-search" />
+              </button>
+            </div>
+            {suggestions.length > 0 && (
+              <ul className="list-group position-absolute w-100 mt-1" style={{ zIndex: 1000 }}>
+                {suggestions.map((item, index) => (
+                  <li
+                    key={index}
+                    className="list-group-item list-group-item-action"
+                    onClick={() => handleSuggestionClick(item)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </form>
+        )}
         <ul className="navbar-nav ms-auto align-items-center">
           {isLoggedIn ? (
             <li className="nav-item d-flex flex-column align-items-center">
