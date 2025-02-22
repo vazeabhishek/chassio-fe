@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { customFetch } from "../utils/api";
 import { useAuth } from "../context/AuthContext";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -48,11 +49,28 @@ const Header = () => {
     }
   };
 
-  const handleSearchSubmit = (event) => {
+  const handleSearchSubmit = async (event) => {
     event.preventDefault();
-    console.log("Searching for:", searchTerm);
+  
+    if (!searchTerm.trim()) return; // Prevent empty searches
+  
+    const formattedQuery = searchTerm.trim().split(" ").join("+");
+    const apiUrl = `/public/cars/search?query=${formattedQuery}`;
+  
+    try {
+      const response = await customFetch(apiUrl, { method: "GET" });
+      if (!response.ok) {
+        throw new Error("Failed to fetch search results");
+      }
+      const data = await response.json();
+      console.log("Search results:", data);
+    } catch (error) {
+      console.error("Error during search:", error);
+    }
+  
     setSuggestions([]); // Hide suggestions after submitting
   };
+  
 
   const handleSuggestionClick = (value) => {
     setSearchTerm(value); // Fill search box with selected suggestion

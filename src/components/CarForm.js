@@ -30,7 +30,7 @@ const CarForm = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const uiData = Cookies.get("uiData");
+    const uiData = localStorage.getItem("uiStaticData");
     if (uiData) {
       const parsedData = JSON.parse(uiData);
       setMakeList(parsedData.data.makeList);

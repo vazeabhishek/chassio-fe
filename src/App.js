@@ -36,7 +36,7 @@ function App() {
     const fetchData = async () => {
       try {
         const response = await axios.get("/public/data/ui");
-        Cookies.set("uiData", JSON.stringify(response.data), { expires: 7 }); // Cookie expires in 7 days
+        localStorage.setItem("uiStaticData", JSON.stringify(response.data), { expires: 7 }); // Cookie expires in 7 days
       } catch (error) {
         console.error("Error fetching API data:", error);
       }
