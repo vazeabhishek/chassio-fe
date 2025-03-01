@@ -40,7 +40,7 @@ const CarCard = ({ car, onLike, onDislike }) => {
                         {`${car.city} | ${car.year} | ${car.fuelType} | ${car.kmsDriven} | INR ${car.askPrice}`}
                     </p>
                     <button className="btn btn-success ms-2" onClick={() => handleDealClick(car.carId)}>
-                        Deal
+                    Connect
                     </button>
                 </div>
             </div>

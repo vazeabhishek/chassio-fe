@@ -17,6 +17,7 @@ import TermsAndConditions from "./components/TermsAndConditions";
 import CarForm from "./components/CarForm";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import AdminPanel from "./components/AdminPanel";
+import CarDetails from "./components/CarDetails";
 
 function App() {
   const [selectedCity, setSelectedCity] = useState(null);
@@ -88,8 +89,8 @@ function App() {
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="/datastoragepolicy" element={<DataStoragePolicy />} />
             <Route path="/termsandconditions" element={<TermsAndConditions />} />
+            <Route path="/cars" element={<CarDetails/>} />
           </Routes>
-
           <Footer />
         </div>
       </Router>
