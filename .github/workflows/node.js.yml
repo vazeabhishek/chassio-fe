@@ -67,7 +67,7 @@ jobs:
           VM_HOST: ${{ secrets.VM_HOST }}
         run: |
           ssh -i ~/.ssh/id_rsa $VM_USER@$VM_HOST << 'EOF'
-          cd /home/$VM_USER/app/
+          cd /opt/chassio-web/uat
           tar -xzf artifact.tar.gz
           pm2 stop all || true  # Stop running process (if any)
           pm2 start build/index.js  # Adjust entry point if needed
