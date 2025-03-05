@@ -54,12 +54,12 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H $VM_HOST >> ~/.ssh/known_hosts
 
-      - name: Copy artifact to VM
+      - name: Copy artifact to VM at UAT location
         env:
           VM_USER: ${{ secrets.VM_USER }}
           VM_HOST: ${{ secrets.VM_HOST }}
         run: |
-          scp -i ~/.ssh/id_rsa artifact.tar.gz $VM_USER@$VM_HOST:/home/$VM_USER/app/
+          scp -i ~/.ssh/id_rsa artifact.tar.gz $VM_USER@$VM_HOST:/opt/chassio-web/uat
 
       - name: Deploy on VM
         env:
