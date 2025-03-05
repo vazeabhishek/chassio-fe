@@ -122,7 +122,7 @@ const CarForm = () => {
       const authToken = Cookies.get("authToken");
 
       // Send the request without explicitly setting Content-Type (axios handles it)
-      const response = await axios.post("/private/cars", formDataToSend, {
+      await axios.post("/private/cars", formDataToSend, {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },

@@ -35,7 +35,7 @@ const UserPanel = () => {
             navigate("/login");
         }
         fetchMyCars();
-    }, [userRole, navigate]);
+    }, [userRole, navigate,fetchMyCars]);
 
     const fetchMyCars = async () => {
         try {
