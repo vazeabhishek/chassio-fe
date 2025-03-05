@@ -29,14 +29,6 @@ const UserPanel = () => {
     const [carouselImages, setCarouselImages] = useState([]);
     const [selectedCarName, setSelectedCarName] = useState("");
 
-
-    useEffect(() => {
-        if (userRole !== "SIGNED_USER" && userRole !== "ADMIN") {
-            navigate("/login");
-        }
-        fetchMyCars();
-    }, [userRole, navigate,fetchMyCars]);
-
     const fetchMyCars = async () => {
         try {
             const response = await customFetch("/private/users/cars");
@@ -50,6 +42,15 @@ const UserPanel = () => {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        if (userRole !== "SIGNED_USER" && userRole !== "ADMIN") {
+            navigate("/login");
+        }
+        fetchMyCars();
+    }, [userRole, navigate,fetchMyCars]);
+
+    
 
     const handleConfirm = async (confirmed) => {
         console.log("action happened");
