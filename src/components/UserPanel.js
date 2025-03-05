@@ -134,106 +134,112 @@ const UserPanel = () => {
             {showCarousel && (
                 <Carousel images={carouselImages} onClose={() => setShowCarousel(false)} carName={selectedCarName} />
             )}
-            <div style={{ display: !isDialogOpen ? "block" : "none" }}>
-                <h1>My Vehicles Ads</h1>
-                <table className="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Car</th>
-                            <th>Year</th>
-                            <th>City</th>
-                            <th>Likes</th>
-                            <th>Dislikes</th>
-                            <th>Views</th>
-                            <th>Actions</th>
-                            <th>Leads</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {cars.map((car, index) => (
-                            <React.Fragment key={car.carId}>
-                                <tr>
-                                    <td>{index + 1}</td>
-                                    <td>{car.make} {car.model}</td>
-                                    <td>{car.year}</td>
-                                    <td>{car.city}</td>
-                                    <td>{car.likeCount}</td>
-                                    <td>{car.dislikeCount}</td>
-                                    <td>{car.viewCount}</td>
-                                    <td>
-                                        <div className="button-container"> {/* Container for buttons */}
-                                            <button
-                                                className="square-button"
-                                                onClick={() => openDialog(car.carId, ActionTypes.MARK_SOLD)}
-                                            >
-                                                <i className="fas fa-check" />
-                                            </button>
-                                            <button
-                                                className="square-button"
-                                                onClick={() => openDialog(car.carId, ActionTypes.DELETE)}
-                                            >
-                                                <i className="fas fa-trash" />
-                                            </button>
-                                            <button
-                                                className="square-button"
-                                                onClick={() => handleCarImageClick(car.imageLinks, `${car.make} ${car.model}`)}
-                                            >
-                                                <i className="fas fa-image text-image" />
-                                            </button>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <button className="green-rectangle-button" onClick={() => toggleLeads(car.carId)}>
-                                            Leads <i className="fas fa-arrow-down text-dark me-2" />
-                                        </button>
-                                    </td>
-                                    <td>{car.carStatus}</td>
-                                </tr>
-                                {visibleRows[car.carId] && leadsData[car.carId] && (
+            {loading ? ( // Show loading indicator
+                <div>Loading...</div>
+            ) : error ? ( // Show error message if fetch fails
+                <div className="alert alert-danger">{error}</div>
+            ) : (
+                <div style={{ display: !isDialogOpen ? "block" : "none" }}>
+                    <h1>My Vehicles Ads</h1>
+                    <table className="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Car</th>
+                                <th>Year</th>
+                                <th>City</th>
+                                <th>Likes</th>
+                                <th>Dislikes</th>
+                                <th>Views</th>
+                                <th>Actions</th>
+                                <th>Leads</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {cars.map((car, index) => (
+                                <React.Fragment key={car.carId}>
                                     <tr>
-                                        <td colSpan="10">
-                                            <table className="table table-bordered mt-3">
-                                                <thead>
-                                                    <tr>
-                                                        <th>#</th>
-                                                        <th>Name</th>
-                                                        <th>Email</th>
-                                                        <th>Phone</th>
-                                                        <th>Ask</th>
-                                                        <th>Spam</th>
-                                                        <th>Date</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {leadsData[car.carId].map((lead, idx) => (
-                                                        <tr key={lead.id}>
-                                                            <td>{idx + 1}</td>
-                                                            <td>{lead.name}</td>
-                                                            <td>{lead.email}</td>
-                                                            <td>{lead.phone}</td>
-                                                            <td>{lead.askingPrice}</td>
-                                                            <td>{lead.flagSpam ? "Yes" : "No"}</td>
-                                                            <td>{new Date(lead.creationDate).toLocaleDateString()}</td>
-                                                        </tr>
-                                                    ))}
-                                                </tbody>
-                                            </table>
+                                        <td>{index + 1}</td>
+                                        <td>{car.make} {car.model}</td>
+                                        <td>{car.year}</td>
+                                        <td>{car.city}</td>
+                                        <td>{car.likeCount}</td>
+                                        <td>{car.dislikeCount}</td>
+                                        <td>{car.viewCount}</td>
+                                        <td>
+                                            <div className="button-container"> {/* Container for buttons */}
+                                                <button
+                                                    className="square-button"
+                                                    onClick={() => openDialog(car.carId, ActionTypes.MARK_SOLD)}
+                                                >
+                                                    <i className="fas fa-check" />
+                                                </button>
+                                                <button
+                                                    className="square-button"
+                                                    onClick={() => openDialog(car.carId, ActionTypes.DELETE)}
+                                                >
+                                                    <i className="fas fa-trash" />
+                                                </button>
+                                                <button
+                                                    className="square-button"
+                                                    onClick={() => handleCarImageClick(car.imageLinks, `${car.make} ${car.model}`)}
+                                                >
+                                                    <i className="fas fa-image text-image" />
+                                                </button>
+                                            </div>
                                         </td>
+                                        <td>
+                                            <button className="green-rectangle-button" onClick={() => toggleLeads(car.carId)}>
+                                                Leads <i className="fas fa-arrow-down text-dark me-2" />
+                                            </button>
+                                        </td>
+                                        <td>{car.carStatus}</td>
                                     </tr>
-                                )}
-                            </React.Fragment>
-                        ))}
-                        <tr className="text-center text-success fw-bold cursor-pointer">
-                            <td colSpan="10">
-                                <i className="fas fa-plus me-2" />
-                                <Link className="btn btn-success" to="/newcar"> Create Ad</Link>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                                    {visibleRows[car.carId] && leadsData[car.carId] && (
+                                        <tr>
+                                            <td colSpan="10">
+                                                <table className="table table-bordered mt-3">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Name</th>
+                                                            <th>Email</th>
+                                                            <th>Phone</th>
+                                                            <th>Ask</th>
+                                                            <th>Spam</th>
+                                                            <th>Date</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {leadsData[car.carId].map((lead, idx) => (
+                                                            <tr key={lead.id}>
+                                                                <td>{idx + 1}</td>
+                                                                <td>{lead.name}</td>
+                                                                <td>{lead.email}</td>
+                                                                <td>{lead.phone}</td>
+                                                                <td>{lead.askingPrice}</td>
+                                                                <td>{lead.flagSpam ? "Yes" : "No"}</td>
+                                                                <td>{new Date(lead.creationDate).toLocaleDateString()}</td>
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    )}
+                                </React.Fragment>
+                            ))}
+                            <tr className="text-center text-success fw-bold cursor-pointer">
+                                <td colSpan="10">
+                                    <i className="fas fa-plus me-2" />
+                                    <Link className="btn btn-success" to="/newcar"> Create Ad</Link>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            )}
         </div>
     );
 };
