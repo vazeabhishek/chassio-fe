@@ -31,7 +31,7 @@ const Filter = ({ setSelectedCity, selectedCity }) => {
       <div className="row g-4">
         <nav className="nav">
           {cities.map((city, index) => (
-            <Button
+            <button
               key={index}
               className="nav-link"
               onClick={() => handleCityClick(city)}
@@ -49,7 +49,7 @@ const Filter = ({ setSelectedCity, selectedCity }) => {
               }}
             >
               {city}
-            </Button>
+            </button>
           ))}
         </nav>
       </div>
