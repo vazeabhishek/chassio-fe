@@ -7,8 +7,8 @@ import Carousel from './Carousel';
 import '../assets/UserPanel.css';
 
 const UserPanel = () => {
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [setLoading] = useState(true);
+    const [setError] = useState(null);
 
     const ActionTypes = {
         DELETE: "DELETE",

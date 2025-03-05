@@ -32,6 +32,7 @@ const Filter = ({ setSelectedCity, selectedCity }) => {
         <nav className="nav">
           {cities.map((city, index) => (
             <a
+              href="#"
               key={index}
               className="nav-link"
               onClick={() => handleCityClick(city)}

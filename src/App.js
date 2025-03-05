@@ -3,7 +3,6 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import axios from "axios";
-import Cookies from "js-cookie";
 import Header from "./components/Header";
 import CarList from "./components/CarList";
 import Footer from "./components/Footer";

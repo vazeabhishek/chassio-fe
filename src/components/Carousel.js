@@ -46,7 +46,7 @@ const Carousel = ({ images, onClose }) => {
         <button className="carousel-close" onClick={onClose}>
           X
         </button>
-        <img src={currentImage} alt={`Image ${currentIndex + 1}`} className="carousel-image" />
+        <img src={currentImage} className="carousel-image" />
         <div className="carousel-controls">
           <button className="carousel-prev" onClick={handlePrev}>
             Prev
