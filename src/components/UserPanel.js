@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { customFetch } from "../utils/api";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -7,8 +7,8 @@ import Carousel from './Carousel';
 import '../assets/UserPanel.css';
 
 const UserPanel = () => {
-    const [setLoading] = useState(true);
-    const [setError] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     const ActionTypes = {
         DELETE: "DELETE",
@@ -29,7 +29,7 @@ const UserPanel = () => {
     const [carouselImages, setCarouselImages] = useState([]);
     const [selectedCarName, setSelectedCarName] = useState("");
 
-    const fetchMyCars = async () => {
+    const fetchMyCars = useCallback(async () => {
         try {
             const response = await customFetch("/private/users/cars");
             const data = await response.json();
@@ -41,16 +41,15 @@ const UserPanel = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, []);
 
     useEffect(() => {
         if (userRole !== "SIGNED_USER" && userRole !== "ADMIN") {
             navigate("/login");
+        } else {
+            fetchMyCars();
         }
-        fetchMyCars();
-    }, [userRole, navigate,fetchMyCars]);
-
-    
+    }, [userRole, navigate, fetchMyCars]);
 
     const handleConfirm = async (confirmed) => {
         console.log("action happened");
@@ -62,7 +61,6 @@ const UserPanel = () => {
                 await markCarAsSold(currentId);
             }
         }
-        
     };
 
     const openDialog = (carId, actionType) => {
@@ -134,8 +132,8 @@ const UserPanel = () => {
         <div className="container mt-5">
             <ConfirmationDialog isOpen={isDialogOpen} message={getDialogMessage()} onClose={handleConfirm} />
             {showCarousel && (
-                            <Carousel images={carouselImages} onClose={() => setShowCarousel(false)} carName={selectedCarName} />
-                            )}
+                <Carousel images={carouselImages} onClose={() => setShowCarousel(false)} carName={selectedCarName} />
+            )}
             <div style={{ display: !isDialogOpen ? "block" : "none" }}>
                 <h1>My Vehicles Ads</h1>
                 <table className="table table-striped">
@@ -164,26 +162,25 @@ const UserPanel = () => {
                                     <td>{car.likeCount}</td>
                                     <td>{car.dislikeCount}</td>
                                     <td>{car.viewCount}</td>
-                                    <td>   
+                                    <td>
                                         <div className="button-container"> {/* Container for buttons */}
                                             <button
                                                 className="square-button"
                                                 onClick={() => openDialog(car.carId, ActionTypes.MARK_SOLD)}
                                             >
-                                                <i className="fas fa-check" /> {/* Removed me-3 */}
+                                                <i className="fas fa-check" />
                                             </button>
                                             <button
                                                 className="square-button"
                                                 onClick={() => openDialog(car.carId, ActionTypes.DELETE)}
                                             >
-                                                <i className="fas fa-trash" /> {/* Removed me-3 */}
+                                                <i className="fas fa-trash" />
                                             </button>
                                             <button
                                                 className="square-button"
-                                                onClick={() => handleCarImageClick(car.imageLinks, car.make + " " + car.model)}
+                                                onClick={() => handleCarImageClick(car.imageLinks, `${car.make} ${car.model}`)}
                                             >
-                                                <i className="fas fa-image text-image" /> {/* Removed me-3 */}
-                                                
+                                                <i className="fas fa-image text-image" />
                                             </button>
                                         </div>
                                     </td>
