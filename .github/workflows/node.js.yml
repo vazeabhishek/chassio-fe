@@ -61,7 +61,7 @@ jobs:
         run: |
           scp -i ~/.ssh/id_rsa artifact.tar.gz $VM_USER@$VM_HOST:/opt/chassio-web/uat
 
-      - name: Deploy on VM
+      - name: Deploy on VM For UAT
         env:
           VM_USER: ${{ secrets.VM_USER }}
           VM_HOST: ${{ secrets.VM_HOST }}
